@@ -203,22 +203,46 @@ function toolsEvent(evt)
         var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
         var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
         var hidrogen3 = new Atom("hidrogen3", 0.7, [1, 1, 1]);
-        var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1])
-        var hidrogen5 = new Atom("hidrogen5", 0.7, [1, 1, 1])
+        var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1]);
+        var hidrogen5 = new Atom("hidrogen5", 0.7, [1, 1, 1]);
         var hidrogen6 = new Atom("hidrogen6", 0.7, [1, 1, 1]);
         var oxigen1 = new Atom("oxigen1", 1.0, [1, 0, 0]);
-        molecule.addAtom(carbon1, null, null);
+        molecule.addAtom(carbon2, null, null);
+        molecule.addAtom(hidrogen4, "carbon2", "up");
+        molecule.addAtom(hidrogen5, "carbon2", "down");
+        molecule.addAtom(carbon1, "carbon2", "left");
         molecule.addAtom(hidrogen1, "carbon1", "left");
         molecule.addAtom(hidrogen2, "carbon1", "up");
         molecule.addAtom(hidrogen3, "carbon1", "down");
-        molecule.addAtom(carbon2, "carbon1", "right");
-        molecule.addAtom(hidrogen4, "carbon2", "up");
-        molecule.addAtom(hidrogen5, "carbon2", "down");
         molecule.addAtom(oxigen1, "carbon2", "right");
         molecule.addAtom(hidrogen6, "oxigen1", "right");
 
         scene.add(molecule);
         molecule.name = "alcohol"+objId;
+        sceneReady = true;
+    }
+    else if(evt == 13){
+        var molecule = new Molecule();
+        var carbon = new Atom("carbon", 1, [0.25, 0.25, 0.25]);
+        var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
+        var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
+        var hidrogen3 = new Atom("hidrogen3", 0.7, [1, 1, 1]);
+        var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1]);
+        var nitrogen1 = new Atom("nitrogen1", 1.0, [0, 0, 1]);
+        var nitrogen2 = new Atom("nitrogen2", 1.0, [0, 0, 1]);
+        var oxigen = new Atom("oxigen", 1, [1, 0, 0]);
+
+        molecule.addAtom(carbon, null, null);
+        molecule.addAtom(oxigen, "carbon", "up");
+        molecule.addAtom(nitrogen1, "carbon", "right");
+        molecule.addAtom(nitrogen2, "carbon", "left");
+        molecule.addAtom(hidrogen1, "nitrogen1", "right");
+        molecule.addAtom(hidrogen2, "nitrogen1", "down");
+        molecule.addAtom(hidrogen3, "nitrogen2", "left");
+        molecule.addAtom(hidrogen4, "nitrogen2", "down");
+
+        scene.add(molecule);
+        molecule.name = "urea"+objId;
         sceneReady = true;
     }
 
