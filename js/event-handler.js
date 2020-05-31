@@ -169,15 +169,81 @@ function toolsEvent(evt)
     }
 
     else if (evt == 11) {
+        // H2O molecule
+        var molecule = new Molecule();
+
+        var oxigen = new Atom("oxigen", 1, [1, 0, 0])
+        var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
+        var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+        molecule.addAtom(oxigen, null, null);
+        molecule.addAtom(hidrogen1, "oxigen", "up");
+        molecule.addAtom(hidrogen2, "oxigen", "right");
+
+        scene.add(molecule);
+        molecule.name = "h2o"+objId;
+        sceneReady = true;
 
       // PYRAMID
-      var geometry = new THREE.ConeGeometry(1.5, 2, 3);     
+      /*
+      var geometry = new THREE.ConeGeometry(1.5, 2, 3);
 
       mesh = new THREE.Mesh(geometry, material);
       mesh.name = "pyramid"+objId;
 
-      scene.add(mesh); 
+      scene.add(mesh);
       sceneReady = true;
+       */
+    }
+
+    else if (evt == 12) {
+        // Alcohol molecule (CH3CH2OH)
+        var molecule = new Molecule();
+        var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+        var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
+        var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
+        var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
+        var hidrogen3 = new Atom("hidrogen3", 0.7, [1, 1, 1]);
+        var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1]);
+        var hidrogen5 = new Atom("hidrogen5", 0.7, [1, 1, 1]);
+        var hidrogen6 = new Atom("hidrogen6", 0.7, [1, 1, 1]);
+        var oxigen1 = new Atom("oxigen1", 1.0, [1, 0, 0]);
+        molecule.addAtom(carbon2, null, null);
+        molecule.addAtom(hidrogen4, "carbon2", "up");
+        molecule.addAtom(hidrogen5, "carbon2", "down");
+        molecule.addAtom(carbon1, "carbon2", "left");
+        molecule.addAtom(hidrogen1, "carbon1", "left");
+        molecule.addAtom(hidrogen2, "carbon1", "up");
+        molecule.addAtom(hidrogen3, "carbon1", "down");
+        molecule.addAtom(oxigen1, "carbon2", "right");
+        molecule.addAtom(hidrogen6, "oxigen1", "right");
+
+        scene.add(molecule);
+        molecule.name = "alcohol"+objId;
+        sceneReady = true;
+    }
+    else if(evt == 13){
+        var molecule = new Molecule();
+        var carbon = new Atom("carbon", 1, [0.25, 0.25, 0.25]);
+        var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
+        var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
+        var hidrogen3 = new Atom("hidrogen3", 0.7, [1, 1, 1]);
+        var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1]);
+        var nitrogen1 = new Atom("nitrogen1", 1.0, [0, 0, 1]);
+        var nitrogen2 = new Atom("nitrogen2", 1.0, [0, 0, 1]);
+        var oxigen = new Atom("oxigen", 1, [1, 0, 0]);
+
+        molecule.addAtom(carbon, null, null);
+        molecule.addAtom(oxigen, "carbon", "up");
+        molecule.addAtom(nitrogen1, "carbon", "right");
+        molecule.addAtom(nitrogen2, "carbon", "left");
+        molecule.addAtom(hidrogen1, "nitrogen1", "right");
+        molecule.addAtom(hidrogen2, "nitrogen1", "down");
+        molecule.addAtom(hidrogen3, "nitrogen2", "left");
+        molecule.addAtom(hidrogen4, "nitrogen2", "down");
+
+        scene.add(molecule);
+        molecule.name = "urea"+objId;
+        sceneReady = true;
     }
 
     var animate = document.getElementById("animated").checked;
@@ -308,4 +374,163 @@ function changeCamera(value) {
   } else if (value == 1){
     camera = cameraO;  
   }
+}
+
+class Molecule extends THREE.Group{
+    constructor() {
+        super();
+        this.atoms = new Dictionary();
+    }
+
+    addAtom(atom, connectionTo, direction){
+        /**
+         * @param {Atom}
+         * atom to insert.
+         * @param {string}
+         * connectionTo: Name of an existent atom in Molecule. Leave empty if is first one.
+         * @param {string}
+         * direcction: means up, down, right or left, relative to connectionTo atom
+         */
+        if(connectionTo == null){
+            this.atoms.set(atom.getName(), atom);
+            this.add(atom);
+        }else{
+            var existentAtom = this.atoms.get(connectionTo);
+            switch (direction) {
+                case "up":
+                    atom.position.x = existentAtom.position.x;
+                    atom.position.y = existentAtom.position.y + existentAtom.size*2 + atom.size;
+                    break;
+                case "down":
+                    atom.position.x = existentAtom.position.x;
+                    atom.position.y = existentAtom.position.y - existentAtom.size*2 - atom.size;
+                    break;
+                case "right":
+                    atom.position.x = existentAtom.position.x + existentAtom.size*2 + atom.size;
+                    atom.position.y = existentAtom.position.y;
+                    break;
+                case "left":
+                    atom.position.x = existentAtom.position.x - existentAtom.size*2 - atom.size;
+                    atom.position.y = existentAtom.position.y;
+                    break;
+            }
+            this.atoms.set(atom.getName(), atom);
+            this.add(atom);
+            this.add(new Connection(atom, existentAtom));
+        }
+    }
+}
+
+class Atom extends THREE.Mesh{
+    constructor(name, size, rgbColor) {
+        /**
+         * @param {string}
+            * name: unique name for the atom
+         * @param {float}
+            * size: Size of the Atom. Default size is 1
+         * @param {array}
+            * rgbColor: Colors in format 0-1. Ex: White = [1, 1, 1]
+         */
+        super(new THREE.SphereGeometry(0.5, 50, 50), new THREE.MeshBasicMaterial);
+        this.material.color.setRGB(rgbColor[0], rgbColor[1], rgbColor[2]);
+        this.name = name;
+        this.size = size/2;
+        this.scale.set(size, size, size);
+    }
+
+    getName(){
+        return this.name;
+    }
+}
+
+class Connection extends THREE.Mesh{
+    constructor(obj1, obj2) {
+        var connection1Geometry = new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
+        super(connection1Geometry, new THREE.MeshBasicMaterial);
+        this.material.color.setRGB(0.5, 0.5, 0.5);
+        this.translateX((obj1.position.x+obj2.position.x)/2);
+        this.translateY((obj1.position.y+obj2.position.y)/2);
+        var escala = (obj1.size + obj2.size)
+        this.scale.set(0.3, escala, 0.3);
+        if(obj1.position.x == obj2.position.x)
+        {
+            this.rotation.set(0, 0, 0);
+        }
+        else if(obj1.position.x > obj2.position.x)
+        {
+            this.rotation.set(0, 0, -Math.PI/2);
+        }
+        else
+        {
+            this.rotation.set(0, 0, Math.PI/2);
+        }
+        if(obj1.position.z > obj2.position.z)
+        {
+            this.rotation.set(0, 0, -Math.PI/2);
+        }
+        else if(obj1.position.z < obj2.position.z)
+        {
+            this.rotation.set(0, 0, Math.PI/2);
+        }
+    }
+}
+
+class Dictionary {
+        // Tomado de:
+        // https://medium.com/@rodrwan/dictionaries-en-js-e2abd196f720
+
+    constructor (){
+        this.items = {}
+    }
+
+    has (key) {
+        return this.items.hasOwnProperty(key)
+    }
+
+    set (key, value) {
+        this.items[key] = value
+    }
+
+    remove (key) {
+        if (this.has(key)) {
+            delete this.items[key]
+            return true
+        }
+
+        return false
+    }
+
+    get (key) {
+        return this.has(key) ? this.items[key] : undefined
+    }
+
+    values () {
+        const values = []
+        for (let key in this.items) {
+            if (this.has(key)) {
+                values.push(this.items[key])
+            }
+        }
+        return values
+    }
+
+    size () {
+        return Object.keys(this.items).length
+    }
+
+    keys () {
+        const keys = []
+        for (let key in this.items) {
+            keys.push(keys)
+        }
+        return keys
+
+        // La forma corta de hacer esto y abusando de las bondades de javascript
+        // es así:
+        // return Object.keys(this.items)
+    }
+
+    getItems () {
+        return this.items
+    }
 }
