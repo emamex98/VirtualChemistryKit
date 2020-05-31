@@ -22,11 +22,42 @@
 
         <div class="col menu-area">
 
-          <input type="radio" name="group1" value="animation" id="animation"> Animation <br>
+          <h4 style="text-align: center;">Menu</h4>
+
+          <h5>Prebuilt Structures</h5>
+          <div class="row">
+            <div class="col">
+              <img id="img-h20" class="action" src="imgs/h2o.png" alt="" onclick="toolsEvent('11');"/>
+            </div>
+            <div class="col">
+              <img id="img-alcohol" class="action" src="imgs/alcohol.png" alt="" onclick="toolsEvent('12');"/>
+            </div>
+            <div class="col">
+              <img id="img-urea" class="action" src="imgs/urea.jpg" alt="" onclick="toolsEvent('13');"/>
+            </div>
+          </div>
+
+          <h5>Animation Controls</h5>
+          <div class="row">
+            <div class="col">
+              <input type="radio" name="group1" value="animation" id="animation"> Animation <br>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button type="button" id="start">Start</button>
+            </div>
+            <div class="col">
+              <button type="button" id="stop">Stop</button>
+            </div>
+            <div class="col">
+              <button type="button" id="reset">Reset</button>
+            </div>
+          </div>
+
+          
           <div>
-            <button type="button" id="start">Start</button>
-            <button type="button" id="stop">Stop</button>
-            <button type="button" id="reset">Reset</button><br>
+            
           </div>
 
           <input type="radio" name="group1" value="edition" id="edition" checked> Edition <br>
@@ -58,14 +89,13 @@
                       <input type="color" id="colorValue" src="imgs/pallete.png" value="#6134eb" onchange="colorPaletteEvent();">
                   </form>
                 </td>
-                <td><img id="img-h20" class="action" src="imgs/h2o.png" alt="" onclick="toolsEvent('11');"/></td>
             </tr>
             <tr>
+              <td></td>
+
                 <td>
-                    <img id="img-alcohol" class="action" src="imgs/alcohol.png" alt="" onclick="toolsEvent('12');"/>
                 </td>
                 <td>
-                    <img id="img-urea" class="action" src="imgs/urea.jpg" alt="" onclick="toolsEvent('13');"/>
                 </td>
             </tr>
           </table>
