@@ -169,12 +169,21 @@ function toolsEvent(evt)
     }
 
     else if (evt == 11) {
+        // Restart scene
+        scene = new THREE.Scene();
+        scene.add(camera);
+        scene.add(light);
+        scene.add(directLight);
+
         // H2O molecule
         var molecule = new Molecule();
 
+        // Create atoms
         var oxigen = new Atom("oxigen", 1, [1, 0, 0])
         var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
         var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+
+        // Add atoms to molecule
         molecule.addAtom(oxigen, null, null);
         molecule.addAtom(hidrogen1, "oxigen", "up");
         molecule.addAtom(hidrogen2, "oxigen", "right");
@@ -182,22 +191,19 @@ function toolsEvent(evt)
         scene.add(molecule);
         molecule.name = "h2o"+objId;
         sceneReady = true;
-
-      // PYRAMID
-      /*
-      var geometry = new THREE.ConeGeometry(1.5, 2, 3);
-
-      mesh = new THREE.Mesh(geometry, material);
-      mesh.name = "pyramid"+objId;
-
-      scene.add(mesh);
-      sceneReady = true;
-       */
     }
 
     else if (evt == 12) {
+        // Restart scene
+        scene = new THREE.Scene();
+        scene.add(camera);
+        scene.add(light);
+        scene.add(directLight);
+
         // Alcohol molecule (CH3CH2OH)
         var molecule = new Molecule();
+
+        // Create atoms
         var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
         var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
         var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
@@ -207,6 +213,8 @@ function toolsEvent(evt)
         var hidrogen5 = new Atom("hidrogen5", 0.7, [1, 1, 1]);
         var hidrogen6 = new Atom("hidrogen6", 0.7, [1, 1, 1]);
         var oxigen1 = new Atom("oxigen1", 1.0, [1, 0, 0]);
+
+        // Add atoms to molecule
         molecule.addAtom(carbon2, null, null);
         molecule.addAtom(hidrogen4, "carbon2", "up");
         molecule.addAtom(hidrogen5, "carbon2", "down");
@@ -222,7 +230,16 @@ function toolsEvent(evt)
         sceneReady = true;
     }
     else if(evt == 13){
+        // Restart scene
+        scene = new THREE.Scene();
+        scene.add(camera);
+        scene.add(light);
+        scene.add(directLight);
+
+        // Urea molecule
         var molecule = new Molecule();
+
+        // Create atoms
         var carbon = new Atom("carbon", 1, [0.25, 0.25, 0.25]);
         var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
         var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
@@ -232,6 +249,7 @@ function toolsEvent(evt)
         var nitrogen2 = new Atom("nitrogen2", 1.0, [0, 0, 1]);
         var oxigen = new Atom("oxigen", 1, [1, 0, 0]);
 
+        // Add atoms to molecule
         molecule.addAtom(carbon, null, null);
         molecule.addAtom(oxigen, "carbon", "up");
         molecule.addAtom(nitrogen1, "carbon", "right");
@@ -254,21 +272,27 @@ function toolsEvent(evt)
     objId++;
 }
 
-function onMouseMove( event ) {
-  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-  raycaster.setFromCamera( mouse, camera );
+function doMouseDown(x, y) {
+    var a = 2*x/canvas.width - 1;
+    var b = 1 - 2*y/canvas.height;
+    raycaster.setFromCamera( new THREE.Vector2(a,b), camera );
 
-	// calculate objects intersecting the picking ray
-	var intersects = raycaster.intersectObjects( scene.children );
+    // calculate objects intersecting the picking ray
+    var intersects = raycaster.intersectObjects(scene.children, true);
 
-  if (intersects.length > 0) {
-    document.getElementById("shape-name").innerHTML = intersects[0].object.name;
-    console.log(intersects[0].object.name);
-    selectedObj = intersects[0].object;
-    
-  }
+    if (intersects.length > 0) {
+        document.getElementById("shape-name").innerHTML = intersects[0].object.name;
+        console.log(intersects[0].object.name + " " + mouse.x + " " + mouse.y + " " +intersects[0].object.position.x);
+        selectedObj = intersects[0].object;
+    }else{
+        console.log(a + " " + b)
+    }
 
+}
+
+function doMouseMove(x, y, evt, prevX, prevY) {
+    // Do something
+    return false;
 }
 
 function animateObject(event) {
@@ -341,7 +365,7 @@ function initEventHandler(evt)
   document.getElementById("reset").addEventListener("click", resetAnimation);
   document.getElementById("degrees").addEventListener("input", updateLabel, false);
   document.getElementById("animated").addEventListener("input", animateObject, false);
-  document.addEventListener('click', onMouseMove, false);
+  //document.addEventListener('click', onMouseMove, false);
 }
 
 function ChangeMaterial(value)
