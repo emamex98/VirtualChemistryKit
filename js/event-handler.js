@@ -26,6 +26,8 @@ function modeChange(ev){
 var molecule;
 var renderer;
 var start = false;
+var evtGlobal;
+//var animationObjects;
 
 function startAnimation(event){
   if(!start){
@@ -38,7 +40,7 @@ function startAnimation(event){
   function animate(){
     id = requestAnimationFrame( animate );
     molecule.rotation.y += .010;
-    render();
+   // render();
   }
 
 
@@ -48,20 +50,25 @@ function stopAnimation(event){
 }
 
 function resetAnimation(event) {
-  for(var i = 0; i < animationObjects.length; i++){
-    animationObjects[i].rotation.set(0., 0., 0.);
-  }
-  //start = false;
+  stopAnimation(event);
+  animationMode = false;
+  controls.reset();
+  toolsEvent(evtGlobal); 
+
 }
+
+
 
 function toolsEvent(evt) 
 {
+  evtGlobal = evt;
 	// MODEL
     // GEOMETRY
 
     if (animationMode) {
       return;
     }
+
 
     if (evt == 1) {
 

@@ -75,6 +75,28 @@ function main()
     requestAnimationFrame(renderLoop);              // RENDER LOOP
 
     document.getElementById("animation-controls").style.display = "none";
+
+    controls = new THREE.TrackballControls(camera,canvas);
+    controls.noPan = false;
+    controls.noZoom = false;
+    controls.staticMoving = true;
+    function move() {
+        controls.update();
+        //requestAnimationFrame(renderLoop);
+    }
+    function down() {
+        document.addEventListener("mousemove", move, false);
+    }
+    function up() {
+        document.removeEventListener("mousemove", move, false);
+    }
+    function touch(event) {
+        if (event.touches.length == 1) {
+            move();
+        }
+    }
+    canvas.addEventListener("mousedown", down, false);
+    canvas.addEventListener("touchmove", touch, false);
     
 }
        
@@ -214,6 +236,13 @@ function setUpTouchHander(element, touchStartFunc, touchMoveFunc, touchEndFunc, 
             prevY = y;
         }
     }
+
+    function installTrackballControls() {
+
+
+    
+    }
+
     function doTouchCancel() {
         if (touchCancelFunc) {
             touchCancelFunc();
