@@ -22,9 +22,11 @@ function modeChange(ev){
     stopAnimation(null)
   }
 }
+
 var molecule;
 var renderer;
 var start = false;
+
 function startAnimation(event){
   if(!start){
     animate();
@@ -228,7 +230,7 @@ function toolsEvent(evt)
         scene.add(directLight);
 
         // Alcohol molecule (CH3CH2OH)
-        var molecule = new Molecule();
+        molecule = new Molecule();
 
         var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
         var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
@@ -264,7 +266,7 @@ function toolsEvent(evt)
         scene.add(directLight);
 
         // Urea molecule
-        var molecule = new Molecule();
+        molecule = new Molecule();
 
         var carbon = new Atom("carbon", 1, [0.25, 0.25, 0.25]);
         var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
