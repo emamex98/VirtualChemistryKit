@@ -1,17 +1,25 @@
-function inputRadioSquareEventListener(evt){
-  
-  if(document.getElementById('animation').checked){
+function modeChange(ev){
+  if(document.getElementById('mode').checked){
     //ANIMATION
     controls.enabled = true;
     document.getElementById("transform").style.display = "none";
+
+    document.getElementById("animation-controls").style.display = "block";
+    document.getElementById("edit-controls").style.display = "none";
+    document.getElementById("edit-controls-2").style.display = "none";
+
     animationMode = true;
-  }else{
+  } else {
     //EDITION
     controls.enabled = false;
-    document.getElementById("transform").style.display = "block";
+    document.getElementById("transform").style.display = "inline";
+
+    document.getElementById("animation-controls").style.display = "none";
+    document.getElementById("edit-controls").style.display = "block";
+    document.getElementById("edit-controls-2").style.display = "block";
+
     animationMode = false;
   }
-  
 }
 
 function startAnimation(event){
@@ -50,7 +58,10 @@ function toolsEvent(evt)
       
     } else if (evt == 2) {
       if (selectedObj != null) {
-        scene.remove(selectedObj);
+      }
+
+      while(scene.children.length > 0){ 
+        scene.remove(scene.children[0]); 
       }
     }
     
@@ -331,8 +342,7 @@ function rotateObject(event) {
 
 function initEventHandler(evt)
 {
-  document.getElementById("animation").addEventListener("input", inputRadioSquareEventListener, false);
-  document.getElementById("edition").addEventListener("input", inputRadioSquareEventListener, false);
+  document.getElementById("mode").addEventListener("input", modeChange, false);
   document.getElementById("tbutton").addEventListener("click", translateObject);
   document.getElementById("sbutton").addEventListener("click", scaleObject);
   document.getElementById("rbutton").addEventListener("click", rotateObject);

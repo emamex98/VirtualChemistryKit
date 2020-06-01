@@ -70,6 +70,8 @@ function main()
 
     // ACTION
     requestAnimationFrame(renderLoop);              // RENDER LOOP
+
+    document.getElementById("animation-controls").style.display = "none";
     
 }
        
