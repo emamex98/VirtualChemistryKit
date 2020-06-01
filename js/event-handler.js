@@ -21,19 +21,34 @@ function modeChange(ev){
     animationMode = false;
   }
 }
-
+var molecule;
+var renderer;
+var start = false;
 function startAnimation(event){
+  if(!start){
+    animate();
+  }
   start = true;
-}
+
+  }
+
+  function animate(){
+    id = requestAnimationFrame( animate );
+    molecule.rotation.y += .010;
+    render();
+  }
+
 
 function stopAnimation(event){
   start = false;
+  cancelAnimationFrame( id );
 }
 
 function resetAnimation(event) {
   for(var i = 0; i < animationObjects.length; i++){
     animationObjects[i].rotation.set(0., 0., 0.);
   }
+  //start = false;
 }
 
 function toolsEvent(evt) 
@@ -181,7 +196,7 @@ function toolsEvent(evt)
 
     else if (evt == 11) {
         // H2O molecule
-        var molecule = new Molecule();
+         molecule = new Molecule();
 
         var oxigen = new Atom("oxigen", 1, [1, 0, 0])
         var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
@@ -208,7 +223,7 @@ function toolsEvent(evt)
 
     else if (evt == 12) {
         // Alcohol molecule (CH3CH2OH)
-        var molecule = new Molecule();
+         molecule = new Molecule();
         var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
         var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
         var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
@@ -233,7 +248,7 @@ function toolsEvent(evt)
         sceneReady = true;
     }
     else if(evt == 13){
-        var molecule = new Molecule();
+         molecule = new Molecule();
         var carbon = new Atom("carbon", 1, [0.25, 0.25, 0.25]);
         var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
         var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
@@ -255,7 +270,10 @@ function toolsEvent(evt)
         scene.add(molecule);
         molecule.name = "urea"+objId;
         sceneReady = true;
-    }
+
+        //molecule.rotation.y += 5000;
+       // render();
+          }
 
     var animate = document.getElementById("animated").checked;
     if (animate) {
@@ -263,6 +281,10 @@ function toolsEvent(evt)
     }
 
     objId++;
+}
+
+function render(){
+  renderer.render(scene, camera);
 }
 
 function onMouseMove( event ) {
