@@ -19,6 +19,7 @@ function modeChange(ev){
     document.getElementById("edit-controls-2").style.display = "block";
 
     animationMode = false;
+    stopAnimation(null)
   }
 }
 var molecule;
