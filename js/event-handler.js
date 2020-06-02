@@ -1,3 +1,7 @@
+var renderer;
+var start = false;
+var evtGlobal;
+
 function modeChange(ev){
   if(document.getElementById('mode').checked){
     //ANIMATION
@@ -5,8 +9,10 @@ function modeChange(ev){
     document.getElementById("transform").style.display = "none";
 
     document.getElementById("animation-controls").style.display = "block";
+
     document.getElementById("edit-controls").style.display = "none";
     document.getElementById("edit-controls-2").style.display = "none";
+    document.getElementById("edit-controls-3").style.display = "none";
 
     animationMode = true;
   } else {
@@ -15,19 +21,25 @@ function modeChange(ev){
     document.getElementById("transform").style.display = "inline";
 
     document.getElementById("animation-controls").style.display = "none";
+
     document.getElementById("edit-controls").style.display = "block";
     document.getElementById("edit-controls-2").style.display = "block";
+    document.getElementById("edit-controls-3").style.display = "block";
 
     animationMode = false;
     stopAnimation(null)
   }
 }
 
-
-var renderer;
-var start = false;
-var evtGlobal;
-//var animationObjects;
+function controlsMode(evt) {
+  if(document.getElementById('constrols-mode').checked){
+    document.getElementById("basic").style.display = "block";
+    document.getElementById("advanced").style.display = "none";
+  } else {
+    document.getElementById("basic").style.display = "none";
+    document.getElementById("advanced").style.display = "block";
+  }
+}
 
 function startAnimation(event){
   if(!start){
@@ -37,11 +49,11 @@ function startAnimation(event){
 
   }
 
-  function animate(){
-    id = requestAnimationFrame( animate );
-    molecule.rotation.y += .010;
-   // render();
-  }
+function animate(){
+  id = requestAnimationFrame( animate );
+  molecule.rotation.y += .010;
+  // render();
+}
 
 
 function stopAnimation(event){
@@ -83,7 +95,8 @@ function toolsEvent(evt)
       scene.add(mesh);
       sceneReady = true;
       
-    } else if (evt == 2) {
+    }
+    else if (evt == 2) {
       if (selectedObj != null) {
       }
 
@@ -92,6 +105,8 @@ function toolsEvent(evt)
       }
       molecule = new Molecule();
       objId = 0;
+      document.getElementById("controlitos-2").innerHTML = "";
+      document.getElementById("shape-name").innerText = "";
     }
     
     else if (evt == 3) {
@@ -215,6 +230,7 @@ function toolsEvent(evt)
         scene.add(light);
         scene.add(directLight);
         objId = 0;
+        document.getElementById("controlitos-2").innerHTML = "";
 
         // H2O molecule
          molecule = new Molecule();
@@ -230,7 +246,7 @@ function toolsEvent(evt)
         molecule.addAtom(hidrogen2, "oxigen", "right");
 
         scene.add(molecule);
-        molecule.name = "h2o"+objId;
+        molecule.name = "H2O";
         sceneReady = true;
     }
 
@@ -241,6 +257,7 @@ function toolsEvent(evt)
         scene.add(light);
         scene.add(directLight);
         objId = 0;
+        document.getElementById("controlitos-2").innerHTML = "";
 
         // Alcohol molecule (CH3CH2OH)
         molecule = new Molecule();
@@ -267,7 +284,7 @@ function toolsEvent(evt)
         molecule.addAtom(hidrogen6, "oxigen1", "right");
 
         scene.add(molecule);
-        molecule.name = "alcohol"+objId;
+        molecule.name = "alcohol";
         sceneReady = true;
     }
     else if(evt == 13){
@@ -278,6 +295,7 @@ function toolsEvent(evt)
         scene.add(light);
         scene.add(directLight);
         objId = 0;
+        document.getElementById("controlitos-2").innerHTML = "";
 
         // Urea molecule
         molecule = new Molecule();
@@ -302,7 +320,7 @@ function toolsEvent(evt)
         molecule.addAtom(hidrogen4, "nitrogen2", "down");
 
         scene.add(molecule);
-        molecule.name = "urea"+objId;
+        molecule.name = "urea";
         sceneReady = true;
 
         //molecule.rotation.y += 5000;
@@ -326,13 +344,64 @@ function doMouseDown(x, y) {
     var intersects = raycaster.intersectObjects(scene.children, true);
 
     if (intersects.length > 0) {
+        if (isPredefinedMolecule(intersects[0].object.parent.name)){
+            document.getElementById("controlitos-2").innerHTML = getContent(intersects[0].object.parent.name);
+        }
         document.getElementById("shape-name").innerHTML = intersects[0].object.name;
         console.log(intersects[0].object.name + " " + mouse.x + " " + mouse.y + " " +intersects[0].object.position.x);
         selectedObj = intersects[0].object;
-    }else{
-        console.log(a + " " + b)
     }
+}
 
+function isPredefinedMolecule(name) {
+    if(name == 'H2O' || name == 'alcohol' || name == 'urea'){
+        return true;
+    }
+    return false;
+}
+
+function getContent(name) {
+    switch (name) {
+        case('H2O'):
+            return "<H4>Molecule: "+name+"</H4>\n" +
+                "            <p>\n" +
+                "              La molécula H2O es un compuesto químico inorgánico formado por dos átomos\n" +
+                "              de hidrógeno (H) y uno de oxígeno (O).<br>\n" +
+                "              Esta molécula es escencial para los seres vivos, al servir para el metabolísmo\n" +
+                "              de biomoléculas. <br>\n" +
+                "              Es descrita comúnmente como solvente universal, dado que disuelve muchos\n" +
+                "              compuestos sólidos, acuosos y gaseosos conocidos.\n" +
+                "              \n" +
+                "            </p>";
+        case('alcohol'):
+            return "<H4>Molecule: "+name+"</H4>\n" + "<p>\n" +
+                "              Compuesto orgánico <br>" +
+                "              El compuesto químico etanol, conocido como alcohol etílico, es un alcohol\n" +
+                "              que en condiciones normales de presión y temperatura se presenta como un\n" +
+                "              líquido incoloro e inflamable con una temperatura de ebullición de 78.4 °C.\n" +
+                "              <br>\n" +
+                "              Es una sustancia psicoactiva y es el principal tipo de alcohol presente en\n" +
+                "              las bebidas alcohólicas, como el vino (alrededor de un 13 %), la cerveza\n" +
+                "              (5 %), los licores (hasta un 50 %) o los aguardientes (hasta un 70 %).\n" +
+                "              <br>\n" +
+                "              El etanol se utiliza ampliamente en muchos sectores industriales y en el\n" +
+                "              sector farmacéutico, como excipiente de algunos medicamentos y cosméticos.\n" +
+                "            </p>";
+        case('urea'):
+            return "<H4>Molecule: "+name+"</H4>\n" + "<p>\n" +
+                "              Compuesto orgánico. <br>\n" +
+                "              La urea es un compuesto químico cristalino e incoloro;\n" +
+                "              de fórmula CO(NH2)2. Se encuentra en mayor proporción en la\n" +
+                "              orina, en el sudor y en la materia fecal. Es el principal\n" +
+                "              producto terminal del metabolismo de las proteínas en el humano\n" +
+                "              y en los demás mamíferos.\n" +
+                "              <br>\n" +
+                "              Se obtuvo originalmente mediante la síntesis de Wöhler, que fue\n" +
+                "              diseñada en 1828 por el químico alemán Friedrich Wöhler, y fue la\n" +
+                "              segunda sustancia orgánica obtenida artificialmente, luego del\n" +
+                "              oxalato de amonio.\n" +
+                "            </p>";
+    }
 }
 
 function doMouseMove(x, y, evt, prevX, prevY) {
@@ -397,6 +466,327 @@ function rotateObject(event) {
   
 }
 
+function changeValue(ev) {
+
+  var hydrogenInput = document.getElementById("hydrogen-input");
+  var carbonInput = document.getElementById("carbon-input");
+  var oxygenInput = document.getElementById("oxygen-input");
+
+  if(ev.target.id == "hydrogen-minus" && hydrogenInput.value > 0){
+    hydrogenInput.value--;
+  } if(ev.target.id == "hydrogen-plus" && hydrogenInput.value < 6){
+    hydrogenInput.value++;
+  }
+
+  if(ev.target.id == "carbon-minus" && carbonInput.value > 0){
+    carbonInput.value--;
+  } if(ev.target.id == "carbon-plus" && carbonInput.value < 2){
+    carbonInput.value++;
+  }
+
+  if(ev.target.id == "oxygen-minus" && oxygenInput.value > 0){
+    oxygenInput.value--;
+  } if(ev.target.id == "oxygen-plus" && oxygenInput.value < 2){
+    oxygenInput.value++;
+  }
+
+}
+
+function build(ev){
+
+  var hydrogenInput = document.getElementById("hydrogen-input").value;
+  var carbonInput = document.getElementById("carbon-input").value;
+  var oxygenInput = document.getElementById("oxygen-input").value;
+
+  // O2
+  if (hydrogenInput == 0 && carbonInput == 0 && oxygenInput == 2) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var oxigen1 = new Atom("oxigen1", 1, [1, 0, 0])
+    var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
+
+    // Add atoms to molecule
+    molecule.addAtom(oxigen1, null, null);
+    molecule.addAtom(oxigen2, "oxigen1", "up");
+
+    scene.add(molecule);
+    molecule.name = "O2"+objId;
+    sceneReady = true;
+
+  } 
+
+  //CO
+  else if (hydrogenInput == 0 && carbonInput == 1 && oxygenInput == 1) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+    var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
+
+    // Add atoms to molecule
+    molecule.addAtom(carbon1, null, null);
+    molecule.addAtom(oxigen2, "carbon1", "up");
+
+    scene.add(molecule);
+    molecule.name = "CO"+objId;
+    sceneReady = true;
+
+  }
+  
+  //CO2
+  else if (hydrogenInput == 0 && carbonInput == 1 && oxygenInput == 2) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+    var oxigen1 = new Atom("oxigen1", 1, [1, 0, 0])
+    var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
+
+    // Add atoms to molecule
+    molecule.addAtom(carbon1, null, null);
+    molecule.addAtom(oxigen1, "carbon1", "left");
+    molecule.addAtom(oxigen2, "carbon1", "right");
+
+    scene.add(molecule);
+    molecule.name = "CO2"+objId;
+    sceneReady = true;
+
+  }
+
+  //H2
+  else if (hydrogenInput == 2 && carbonInput == 0 && oxygenInput == 0) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1])
+
+    // Add atoms to molecule
+    molecule.addAtom(hidrogen1, null, null);
+    molecule.addAtom(hidrogen2, "hidrogen1", "right");
+
+    scene.add(molecule);
+    molecule.name = "H2"+objId;
+    sceneReady = true;
+
+  }
+
+  //H2O
+  else if (hydrogenInput == 2 && carbonInput == 0 && oxygenInput == 1) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // H2O molecule
+     molecule = new Molecule();
+
+    // Create atoms
+    var oxigen = new Atom("oxigen", 1, [1, 0, 0])
+    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+
+    // Add atoms to molecule
+    molecule.addAtom(oxigen, null, null);
+    molecule.addAtom(hidrogen1, "oxigen", "up");
+    molecule.addAtom(hidrogen2, "oxigen", "right");
+
+    scene.add(molecule);
+    molecule.name = "H2O"+objId;
+    sceneReady = true;
+
+  }
+
+  //H2C2O2
+  else if (hydrogenInput == 2 && carbonInput == 2 && oxygenInput == 2) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var oxigen1 = new Atom("oxigen1", 1, [1, 0, 0])
+    var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
+    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+    var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+    var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
+
+    // Add atoms to molecule
+    molecule.addAtom(carbon1, null, null)
+    molecule.addAtom(carbon2, "carbon1", "right")
+    molecule.addAtom(oxigen1, "carbon1", "up");
+    molecule.addAtom(oxigen2, "carbon2", "down");
+    molecule.addAtom(hidrogen1, "carbon1", "down");
+    molecule.addAtom(hidrogen2, "carbon2", "up");
+
+    scene.add(molecule);
+    molecule.name = "H2C2O2"+objId;
+    sceneReady = true;
+
+  }
+
+  //H2O2
+  else if (hydrogenInput == 2 && carbonInput == 0 && oxygenInput == 2) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var oxigen1 = new Atom("oxigen1", 1, [1, 0, 0])
+    var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
+    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+
+    // Add atoms to molecule
+    molecule.addAtom(oxigen1, null, null);
+    molecule.addAtom(oxigen2, "oxigen1", "left");
+    molecule.addAtom(hidrogen1, "oxigen1", "up");
+    molecule.addAtom(hidrogen2, "oxigen2", "down");
+
+    scene.add(molecule);
+    molecule.name = "H2O2"+objId;
+    sceneReady = true;
+
+  }
+
+  //CH4
+  else if (hydrogenInput == 4 && carbonInput == 1 && oxygenInput == 0) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+    var hidrogen3 = new Atom("h3", 0.7, [1, 1, 1])
+    var hidrogen4 = new Atom("h4", 0.7, [1, 1, 1])
+
+    // Add atoms to molecule
+    molecule.addAtom(carbon1, null, null);
+    molecule.addAtom(oxigen1, "carbon1", "left");
+    molecule.addAtom(oxigen2, "carbon1", "right");
+
+    scene.add(molecule);
+    molecule.name = "CH4"+objId;
+    sceneReady = true;
+
+
+    
+  }
+
+  //C2H6
+  else if (hydrogenInput == 6 && carbonInput == 2 && oxygenInput == 0) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // Ethane
+    molecule = new Molecule();
+
+    var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+    var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
+    var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
+    var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
+    var hidrogen3 = new Atom("hidrogen3", 0.7, [1, 1, 1]);
+    var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1]);
+    var hidrogen5 = new Atom("hidrogen5", 0.7, [1, 1, 1]);
+    var hidrogen6 = new Atom("hidrogen6", 0.7, [1, 1, 1]);
+
+    // Add atoms to molecule
+    molecule.addAtom(carbon2, null, null);
+    molecule.addAtom(hidrogen4, "carbon2", "up");
+    molecule.addAtom(hidrogen5, "carbon2", "down");
+    molecule.addAtom(carbon1, "carbon2", "left");
+    molecule.addAtom(hidrogen1, "carbon1", "left");
+    molecule.addAtom(hidrogen2, "carbon1", "up");
+    molecule.addAtom(hidrogen3, "carbon1", "down");
+    molecule.addAtom(hidrogen6, "carbon2", "right");
+
+    scene.add(molecule);
+    molecule.name = "C2H6"+objId;
+    sceneReady = true;
+
+  }
+
+  else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Please enter a stable combination!',
+      footer: '<a href="http://www2.yvcc.edu/Biology/109Modules/Modules/ChemistryModule/Chemistry.html#:~:text=The%20stability%20of%20atoms%20depends,other%20atoms%20to%20achieve%20stability">Learn more about molecule structure stability.</a>'
+    });
+  }
+
+
+
+}
+
 
 function initEventHandler(evt)
 {
@@ -409,6 +799,16 @@ function initEventHandler(evt)
   document.getElementById("reset").addEventListener("click", resetAnimation);
   document.getElementById("degrees").addEventListener("input", updateLabel, false);
   document.getElementById("animated").addEventListener("input", animateObject, false);
+  document.getElementById("animated").addEventListener("input", animateObject, false);
+
+  document.getElementById("hydrogen-minus").addEventListener("click", changeValue);
+  document.getElementById("hydrogen-plus").addEventListener("click", changeValue);
+  document.getElementById("carbon-minus").addEventListener("click", changeValue);
+  document.getElementById("carbon-plus").addEventListener("click", changeValue);
+  document.getElementById("oxygen-minus").addEventListener("click", changeValue);
+  document.getElementById("oxygen-plus").addEventListener("click", changeValue);
+  document.getElementById("build-btn").addEventListener("click", build);
+
   //document.addEventListener('click', onMouseMove, false);
 }
 
