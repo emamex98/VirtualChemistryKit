@@ -76,263 +76,117 @@ function resetAnimation(event) {
 function toolsEvent(evt) 
 {
   evtGlobal = evt;
-	// MODEL
-    // GEOMETRY
 
-    if (animationMode) {
-      return;
-    }
-
-
-    if (evt == 1) {
-
-      // CUBE
-      var geometry = new THREE.BoxGeometry();   
-
-      // MESH (GEOMETRY + MATERIAL)
-      mesh = new THREE.Mesh(geometry, material);
-      mesh.name = "cube"+objId;
-      scene.add(mesh);
-      sceneReady = true;
-      
-    }
-    else if (evt == 2) {
-      if (selectedObj != null) {
-      }
-
-      while(scene.children.length > 0){
-        scene.remove(scene.children[0]);
-      }
-      molecule = new Molecule();
+  if (evt == 11) {
+      // Restart scene
+      scene = new THREE.Scene();
+      scene.add(camera);
+      scene.add(light);
+      scene.add(directLight);
       objId = 0;
       document.getElementById("controlitos-2").innerHTML = "";
-      document.getElementById("shape-name").innerText = "";
-    }
-    
-    else if (evt == 3) {
 
-      // PLANE
-      var planeGeometry = new THREE.PlaneGeometry(10, 10, 10, 10);
-      var plane = new THREE.Mesh(planeGeometry, material);
-      plane.name = "piso";
-      plane.rotation.x = -1.3;// * Math.PI;
-
-      scene.add(plane);
-      sceneReady = true;
-    } 
-
-    else if (evt == 4) {
-
-      Swal.fire({
-        title: 'Select a material',
-        imageUrl: './imgs/materials.png',
-        imageHeight: 123,
-        imageWidth: 600,
-        html:
-          '<input type="radio" id="wireframe" name="material" onclick="ChangeMaterial(0)"><label for="male">Wireframe</label>' +
-          '<input type="radio" id="normal" name="material" onclick="ChangeMaterial(1)"><label for="male">Normal</label>' +
-          '<input type="radio" id="basic" name="material" onclick="ChangeMaterial(2)"><label for="male">Basic</label>' +
-          '<input type="radio" id="lambert" name="material" onclick="ChangeMaterial(3)"><label for="female">Lambert</label>' +
-          '<input type="radio" id="phong" name="material" onclick="ChangeMaterial(4)"><label for="other">Phong</label>' +
-          '<input type="radio" id="texture" name="material" onclick="ChangeMaterial(5)"><label for="other">Image Texture</label>',
-        showCloseButton: true,
-        showCancelButton: false,
-        focusConfirm: false,
-        confirmButtonText:
-          '<i class="fa fa-thumbs-up"></i> Done',
-      });
-
-    } 
-
-    else if (evt == 5) {
-
-      // CONE
-      var geometry = new THREE.ConeGeometry(1, 2, 50);
-       
-      mesh = new THREE.Mesh(geometry, material);
-      mesh.name = "cono"+objId;
-
-      scene.add(mesh); 
-      sceneReady = true;
-
-
-    }
-
-    else if (evt == 6) {
-
-      Swal.fire({
-        title: 'Select a camera',
-        html:
-          '<input type="radio" id="wireframe" name="camera" onclick="changeCamera(0)"><label for="male">Perspective</label>' +
-          '<input type="radio" id="texture" name="camera" onclick="changeCamera(1)"><label for="other">Ortographic</label>',
-        showCloseButton: true,
-        showCancelButton: false,
-        focusConfirm: false,
-        confirmButtonText:
-          '<i class="fa fa-thumbs-up"></i> Done',
-      });
-
-    }
-    
-    else if (evt == 7) {
-
-      // CYLINDER
-      var geometry = new THREE.CylinderGeometry( 0.5, 0.5, 1,32);
-      //var material = material;
-
-      mesh = new THREE.Mesh(geometry, material);
-      mesh.name = "cilindro"+objId;
-
-      scene.add(mesh);
-      sceneReady = true;
-    }
-    else if (evt == 8) {
-      var bigSphereGeometry = new THREE.SphereGeometry(1., 10, 10);
-    var bigSphere = new THREE.Mesh(bigSphereGeometry, material);
-    bigSphere.name = "bigS";
-    // LITTLE SPHERE
-    var littleSphereGeometry = new THREE.SphereGeometry(1., 10, 10);
-    var littleSphere = new THREE.Mesh(littleSphereGeometry, material);
-    littleSphere.name = "lilS";
-
-    // MODEL TRANSFORM
-    bigSphere.position.set(0., 0., 0.);
-    // LITTLE SPHERE
-    littleSphere.position.set(0., 1.5, 0.);
-    littleSphere.scale.set(0.5, 0.5, 0.5);
-
-    // GROUP
-    snowMan= new THREE.Group();
-    snowMan.add(bigSphere);
-    snowMan.add(littleSphere);
-    snowMan.name = "snowman";
-    snowMans.push(snowMan);
-
-    scene.add(snowMan);
-    sceneReady = true;
-    }
-
-    else if (evt == 9) {
-
-      //SPHERE
-      var geometry = new THREE.SphereGeometry(0.5, 50, 50);
-
-      mesh = new THREE.Mesh(geometry, material);
-      mesh.name = "sphere"+objId;
-      scene.add(mesh); 
-      sceneReady = true;
-    }
-
-    else if (evt == 11) {
-        // Restart scene
-        scene = new THREE.Scene();
-        scene.add(camera);
-        scene.add(light);
-        scene.add(directLight);
-        objId = 0;
-        document.getElementById("controlitos-2").innerHTML = "";
-
-        // H2O molecule
-         molecule = new Molecule();
-
-        // Create atoms
-        var oxigen = new Atom("oxigen", 1, [1, 0, 0])
-        var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
-        var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
-
-        // Add atoms to molecule
-        molecule.addAtom(oxigen, null, null);
-        molecule.addAtom(hidrogen1, "oxigen", "up");
-        molecule.addAtom(hidrogen2, "oxigen", "right");
-
-        scene.add(molecule);
-        molecule.name = "H2O";
-        sceneReady = true;
-    }
-
-    else if (evt == 12) {
-        // Restart scene
-        scene = new THREE.Scene();
-        scene.add(camera);
-        scene.add(light);
-        scene.add(directLight);
-        objId = 0;
-        document.getElementById("controlitos-2").innerHTML = "";
-
-        // Alcohol molecule (CH3CH2OH)
+      // H2O molecule
         molecule = new Molecule();
 
-        var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
-        var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
-        var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
-        var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
-        var hidrogen3 = new Atom("hidrogen3", 0.7, [1, 1, 1]);
-        var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1]);
-        var hidrogen5 = new Atom("hidrogen5", 0.7, [1, 1, 1]);
-        var hidrogen6 = new Atom("hidrogen6", 0.7, [1, 1, 1]);
-        var oxigen1 = new Atom("oxigen1", 1.0, [1, 0, 0]);
+      // Create atoms
+      var oxigen = new Atom("oxigen", 1, [1, 0, 0])
+      var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
+      var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
 
-        // Add atoms to molecule
-        molecule.addAtom(carbon2, null, null);
-        molecule.addAtom(hidrogen4, "carbon2", "up");
-        molecule.addAtom(hidrogen5, "carbon2", "down");
-        molecule.addAtom(carbon1, "carbon2", "left");
-        molecule.addAtom(hidrogen1, "carbon1", "left");
-        molecule.addAtom(hidrogen2, "carbon1", "up");
-        molecule.addAtom(hidrogen3, "carbon1", "down");
-        molecule.addAtom(oxigen1, "carbon2", "right");
-        molecule.addAtom(hidrogen6, "oxigen1", "right");
+      // Add atoms to molecule
+      molecule.addAtom(oxigen, null, null);
+      molecule.addAtom(hidrogen1, "oxigen", "up");
+      molecule.addAtom(hidrogen2, "oxigen", "right");
 
-        scene.add(molecule);
-        molecule.name = "alcohol";
-        sceneReady = true;
-    }
-    else if(evt == 13){
-      
-        // Restart scene
-        scene = new THREE.Scene();
-        scene.add(camera);
-        scene.add(light);
-        scene.add(directLight);
-        objId = 0;
-        document.getElementById("controlitos-2").innerHTML = "";
+      scene.add(molecule);
+      molecule.name = "H2O";
+      sceneReady = true;
+  }
 
-        // Urea molecule
-        molecule = new Molecule();
+  else if (evt == 12) {
+      // Restart scene
+      scene = new THREE.Scene();
+      scene.add(camera);
+      scene.add(light);
+      scene.add(directLight);
+      objId = 0;
+      document.getElementById("controlitos-2").innerHTML = "";
 
-        var carbon = new Atom("carbon", 1, [0.25, 0.25, 0.25]);
-        var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
-        var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
-        var hidrogen3 = new Atom("hidrogen3", 0.7, [1, 1, 1]);
-        var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1]);
-        var nitrogen1 = new Atom("nitrogen1", 1.0, [0, 0, 1]);
-        var nitrogen2 = new Atom("nitrogen2", 1.0, [0, 0, 1]);
-        var oxigen = new Atom("oxigen", 1, [1, 0, 0]);
+      // Alcohol molecule (CH3CH2OH)
+      molecule = new Molecule();
 
-        // Add atoms to molecule
-        molecule.addAtom(carbon, null, null);
-        molecule.addAtom(oxigen, "carbon", "up");
-        molecule.addAtom(nitrogen1, "carbon", "right");
-        molecule.addAtom(nitrogen2, "carbon", "left");
-        molecule.addAtom(hidrogen1, "nitrogen1", "right");
-        molecule.addAtom(hidrogen2, "nitrogen1", "down");
-        molecule.addAtom(hidrogen3, "nitrogen2", "left");
-        molecule.addAtom(hidrogen4, "nitrogen2", "down");
+      var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+      var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
+      var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
+      var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
+      var hidrogen3 = new Atom("hidrogen3", 0.7, [1, 1, 1]);
+      var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1]);
+      var hidrogen5 = new Atom("hidrogen5", 0.7, [1, 1, 1]);
+      var hidrogen6 = new Atom("hidrogen6", 0.7, [1, 1, 1]);
+      var oxigen1 = new Atom("oxigen1", 1.0, [1, 0, 0]);
 
-        scene.add(molecule);
-        molecule.name = "urea";
-        sceneReady = true;
+      // Add atoms to molecule
+      molecule.addAtom(carbon2, null, null);
+      molecule.addAtom(hidrogen4, "carbon2", "up");
+      molecule.addAtom(hidrogen5, "carbon2", "down");
+      molecule.addAtom(carbon1, "carbon2", "left");
+      molecule.addAtom(hidrogen1, "carbon1", "left");
+      molecule.addAtom(hidrogen2, "carbon1", "up");
+      molecule.addAtom(hidrogen3, "carbon1", "down");
+      molecule.addAtom(oxigen1, "carbon2", "right");
+      molecule.addAtom(hidrogen6, "oxigen1", "right");
 
-        //molecule.rotation.y += 5000;
-       // render();
-          }
+      scene.add(molecule);
+      molecule.name = "alcohol";
+      sceneReady = true;
+  }
+  else if(evt == 13){
+    
+      // Restart scene
+      scene = new THREE.Scene();
+      scene.add(camera);
+      scene.add(light);
+      scene.add(directLight);
+      objId = 0;
+      document.getElementById("controlitos-2").innerHTML = "";
 
-    var animate = document.getElementById("animated").checked;
-    if (animate) {
-      animationObjects.push(mesh);
-    }
+      // Urea molecule
+      molecule = new Molecule();
 
-    objId++;
+      var carbon = new Atom("carbon", 1, [0.25, 0.25, 0.25]);
+      var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
+      var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
+      var hidrogen3 = new Atom("hidrogen3", 0.7, [1, 1, 1]);
+      var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1]);
+      var nitrogen1 = new Atom("nitrogen1", 1.0, [0, 0, 1]);
+      var nitrogen2 = new Atom("nitrogen2", 1.0, [0, 0, 1]);
+      var oxigen = new Atom("oxigen", 1, [1, 0, 0]);
+
+      // Add atoms to molecule
+      molecule.addAtom(carbon, null, null);
+      molecule.addAtom(oxigen, "carbon", "up");
+      molecule.addAtom(nitrogen1, "carbon", "right");
+      molecule.addAtom(nitrogen2, "carbon", "left");
+      molecule.addAtom(hidrogen1, "nitrogen1", "right");
+      molecule.addAtom(hidrogen2, "nitrogen1", "down");
+      molecule.addAtom(hidrogen3, "nitrogen2", "left");
+      molecule.addAtom(hidrogen4, "nitrogen2", "down");
+
+      scene.add(molecule);
+      molecule.name = "urea";
+      sceneReady = true;
+
+      //molecule.rotation.y += 5000;
+      // render();
+        }
+
+  var animate = document.getElementById("animated").checked;
+  if (animate) {
+    animationObjects.push(mesh);
+  }
+
+  objId++;
 }
 
 function doMouseDown(x, y) {
