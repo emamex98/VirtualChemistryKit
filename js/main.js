@@ -80,6 +80,31 @@ function main()
 
     document.getElementById("animation-controls").style.display = "none";
     document.getElementById("controlitos").style.display = "none";
+
+    //------------------------- Mouse Control -----------------------
+    controls = new THREE.TrackballControls(camera,canvas);
+    controls.noPan = false;
+    controls.noZoom = false;
+    controls.staticMoving = true;
+    function move() {
+        controls.update();
+        //requestAnimationFrame(renderLoop);
+    }
+    function down() {
+        document.addEventListener("mousemove", move, false);
+    }
+    function up() {
+        document.removeEventListener("mousemove", move, false);
+    }
+    function touch(event) {
+        if (event.touches.length == 1) {
+            move();
+        }
+    }
+    canvas.addEventListener("mousedown", down, false);
+    canvas.addEventListener("touchmove", touch, false);
+    //-----------------------------------------------------------------------
+    
 }
        
 function renderLoop() {
@@ -216,6 +241,8 @@ function setUpTouchHander(element, touchStartFunc, touchMoveFunc, touchEndFunc, 
             prevY = y;
         }
     }
+
+
     function doTouchCancel() {
         if (touchCancelFunc) {
             touchCancelFunc();
