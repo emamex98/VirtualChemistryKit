@@ -23,7 +23,7 @@ function modeChange(ev){
   }
 }
 
-var molecule;
+
 var renderer;
 var start = false;
 
@@ -78,9 +78,11 @@ function toolsEvent(evt)
       if (selectedObj != null) {
       }
 
-      while(scene.children.length > 0){ 
-        scene.remove(scene.children[0]); 
+      while(scene.children.length > 0){
+        scene.remove(scene.children[0]);
       }
+      molecule = new Molecule();
+      objId = 0;
     }
     
     else if (evt == 3) {
@@ -203,6 +205,7 @@ function toolsEvent(evt)
         scene.add(camera);
         scene.add(light);
         scene.add(directLight);
+        objId = 0;
 
         // H2O molecule
          molecule = new Molecule();
@@ -228,6 +231,7 @@ function toolsEvent(evt)
         scene.add(camera);
         scene.add(light);
         scene.add(directLight);
+        objId = 0;
 
         // Alcohol molecule (CH3CH2OH)
         molecule = new Molecule();
@@ -264,6 +268,7 @@ function toolsEvent(evt)
         scene.add(camera);
         scene.add(light);
         scene.add(directLight);
+        objId = 0;
 
         // Urea molecule
         molecule = new Molecule();
@@ -430,6 +435,111 @@ function changeCamera(value) {
   }
 }
 
+function newAtom(identifier)
+{
+    var atomToInsert;
+    switch (identifier) {
+        case('oxygen'):
+            atomToInsert = new OxygenAtom();
+            break;
+        case ('carbon'):
+            atomToInsert = new CarbonAtom();
+            break;
+        case('hidrogen'):
+            atomToInsert = new HidrogenAtom();
+            break;
+        case('nitrogen'):
+            atomToInsert = new NitrogenAtom();
+            break;
+    }
+    if(molecule == null || molecule.atoms.size() == 0){
+        // Restart scene
+        scene = new THREE.Scene();
+        scene.add(camera);
+        scene.add(light);
+        scene.add(directLight);
+
+        // Alcohol molecule (CH3CH2OH)
+        molecule = new Molecule();
+
+        /*
+                    atomsDict
+        is a dictionary that keeps track on
+        atoms connections. Every atom name (key) leads
+        to a boolean array  of size 4, where its
+        elements are listed as follows:
+        [up, down, right, left]
+        If an atom has a connection to another atom on
+        up, then up is true, or false if not.
+         */
+        atomsDict = new Dictionary();
+        objId == 0;
+        atomsDict.set(atomToInsert.getName(), [false, false, false, false])
+        molecule.addAtom(atomToInsert, null, null);
+        molecule.name = "newMolecule"+objId;
+        scene.add(molecule);
+        sceneReady = true;
+
+    }else{
+        var atomSelectedName = selectedObj.getName();
+
+        var direction = getCheckedDirection();
+        var arrayDir = atomsDict.get(atomSelectedName);
+        if (!arrayDir[oppositeDirection(direction)]){
+            // Sets direction as taken.
+            arrayDir[oppositeDirection(direction)] = true;
+            atomsDict.set(atomSelectedName, arrayDir);
+
+            // Insert in atomsDict the new atom
+            var atomToInsertArray = [false, false, false, false];
+            atomToInsertArray[direction] = true;
+            atomsDict.set(atomToInsert.getName(), atomToInsertArray);
+
+            molecule.addAtom(atomToInsert, atomSelectedName, directionName(direction));
+        }
+    }
+    objId++;
+}
+
+function getCheckedDirection() {
+    if(document.getElementById("dir1").checked){
+        return 0;
+    }else if(document.getElementById("dir2").checked){
+        return 1;
+    }else if(document.getElementById("dir3").checked){
+        return 2;
+    }else if(document.getElementById("dir4").checked){
+        return 3;
+    }else{
+        return 0;
+    }
+}
+
+function directionName(direction) {
+    switch (direction) {
+        case(0):
+            return "up";
+        case(1):
+            return "down";
+        case(2):
+            return "right";
+        case (3):
+            return "left";
+    }
+}
+
+function oppositeDirection(direction) {
+    if (direction == 0){
+        return 1
+    }else if (direction == 1){
+        return 0;
+    }else if (direction == 2){
+        return 3;
+    }else{
+        return 2;
+    }
+}
+
 class Molecule extends THREE.Group{
     constructor() {
         super();
@@ -494,6 +604,31 @@ class Atom extends THREE.Mesh{
 
     getName(){
         return this.name;
+    }
+}
+
+class OxygenAtom extends Atom{
+    constructor() {
+        super("oxygen"+objId, 1.0, [1, 0, 0]);
+    }
+}
+
+class CarbonAtom extends Atom{
+    constructor() {
+        super("carbon"+objId, 1.0, [0.25, 0.25, 0.25]);
+    }
+}
+
+class HidrogenAtom extends Atom{
+    constructor() {
+        super("hidrogen"+objId, 0.7, [1, 1, 1]);
+    }
+
+}
+
+class NitrogenAtom extends Atom{
+    constructor() {
+        super("nitrogen1", 1.0, [0, 0, 1]);
     }
 }
 
