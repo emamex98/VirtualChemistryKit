@@ -437,6 +437,21 @@ function changeCamera(value) {
 
 function newAtom(identifier)
 {
+    var atomToInsert;
+    switch (identifier) {
+        case('oxygen'):
+            atomToInsert = new OxygenAtom();
+            break;
+        case ('carbon'):
+            atomToInsert = new CarbonAtom();
+            break;
+        case('hidrogen'):
+            atomToInsert = new HidrogenAtom();
+            break;
+        case('nitrogen'):
+            atomToInsert = new NitrogenAtom();
+            break;
+    }
     if(molecule == null || molecule.atoms.size() == 0){
         // Restart scene
         scene = new THREE.Scene();
@@ -459,18 +474,6 @@ function newAtom(identifier)
          */
         atomsDict = new Dictionary();
         objId == 0;
-        var atomToInsert;
-        switch (identifier) {
-            case('oxygen'):
-                atomToInsert = new OxygenAtom();
-                break;
-            case ('carbon'):
-                atomToInsert = new CarbonAtom();
-                break;
-            case('hidrogen'):
-                atomToInsert = new HidrogenAtom();
-                break;
-        }
         atomsDict.set(atomToInsert.getName(), [false, false, false, false])
         molecule.addAtom(atomToInsert, null, null);
         molecule.name = "newMolecule"+objId;
@@ -479,18 +482,7 @@ function newAtom(identifier)
 
     }else{
         var atomSelectedName = selectedObj.getName();
-        var atomToInsert;
-        switch (identifier) {
-            case('oxygen'):
-                atomToInsert = new OxygenAtom();
-                break;
-            case ('carbon'):
-                atomToInsert = new CarbonAtom();
-                break;
-            case('hidrogen'):
-                atomToInsert = new HidrogenAtom();
-                break;
-        }
+
         var direction = getCheckedDirection();
         var arrayDir = atomsDict.get(atomSelectedName);
         if (!arrayDir[oppositeDirection(direction)]){
@@ -632,6 +624,12 @@ class HidrogenAtom extends Atom{
         super("hidrogen"+objId, 0.7, [1, 1, 1]);
     }
 
+}
+
+class NitrogenAtom extends Atom{
+    constructor() {
+        super("nitrogen1", 1.0, [0, 0, 1]);
+    }
 }
 
 class Connection extends THREE.Mesh{
