@@ -76,6 +76,7 @@ function main()
 
     document.getElementById("animation-controls").style.display = "none";
 
+    //------------------------- Mouse Control -----------------------
     controls = new THREE.TrackballControls(camera,canvas);
     controls.noPan = false;
     controls.noZoom = false;
@@ -97,6 +98,7 @@ function main()
     }
     canvas.addEventListener("mousedown", down, false);
     canvas.addEventListener("touchmove", touch, false);
+    //-----------------------------------------------------------------------
     
 }
        
@@ -237,11 +239,6 @@ function setUpTouchHander(element, touchStartFunc, touchMoveFunc, touchEndFunc, 
         }
     }
 
-    function installTrackballControls() {
-
-
-    
-    }
 
     function doTouchCancel() {
         if (touchCancelFunc) {
