@@ -51,9 +51,12 @@
           <div class="row" id="edit-controls">
             <div class="col">
               <h5>Canvas Controls</h5>
+              <img id="img-eraser" class="action" src="imgs/selector.png" alt="" onclick=""/>
               <img id="img-eraser" class="action" src="imgs/eraser.png" alt="" onclick="toolsEvent('2');"/>
-              <!-- <img id="img-alcohol" class="action" src="imgs/alcohol.png" alt="" onclick="toolsEvent('12');"/>
-              <img id="img-urea" class="action" src="imgs/urea.jpg" alt="" onclick="toolsEvent('13');"/> -->
+              <br><label for="rotation">Rotation</label>
+              <input type="range" min="0" max="2" value="0" step="0.1" class="slider" id="degrees">
+              <label for="degrees" id="ldeg">0.0</label><br>
+              <button type="button" id="rbutton">Rotate</button><br>
             </div>
           </div>
           
@@ -96,12 +99,6 @@
                 <button type="button" onclick="newAtom('nitrogen')">Nitrogen</button>
 
               </div>
-              
-              <label for="rotation">Rotation</label><br>
-              <input type="range" min="0" max="2" value="0" step="0.1" class="slider" id="degrees"><br>
-              <label for="degrees" id="ldeg">0.0</label><br>
-              <button type="button" id="rbutton">Rotate</button><br>
-
 
               <div id="basic">
                 <h6>Atoms</h6>
