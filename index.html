@@ -96,6 +96,12 @@
                 <button type="button" onclick="newAtom('nitrogen')">Nitrogen</button>
 
               </div>
+              
+              <label for="rotation">Rotation</label><br>
+              <input type="range" min="0" max="2" value="0" step="0.1" class="slider" id="degrees"><br>
+              <label for="degrees" id="ldeg">0.0</label><br>
+              <button type="button" id="rbutton">Rotate</button><br>
+
 
               <div id="basic">
                 <h6>Atoms</h6>
@@ -179,10 +185,7 @@
               <input type="text" id="sy" name="text-scale-y"><br>
               <input type="text" id="sz" name="text-scale-z"><br>
               <button type="button" id="sbutton">Scale</button><br>
-              <label for="rotation">Rotation</label><br>
-              <input type="range" min="0" max="2" value="0" step="0.1" class="slider" id="degrees"><br>
-              <label for="degrees" id="ldeg">0.0</label><br>
-              <button type="button" id="rbutton">Rotate</button><br>
+
             </div>
           </div>
         </div>
