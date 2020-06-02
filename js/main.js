@@ -18,6 +18,8 @@ var start = false;
 var objId;
 var snowMan;
 var snowMans;
+var atomsDict;
+var molecule;
 
 function main()
 {
@@ -30,6 +32,8 @@ function main()
     animationObjects = [];
     snowMans = [];
     objId = 0;
+
+    molecule = new Molecule();
 
     // LIGHTS
     light = new THREE.AmbientLight();    

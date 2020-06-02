@@ -64,6 +64,22 @@
             </div>
           </div>
 
+          <div class="row" id="edit-controls-3">
+            <div class="col">
+              <h5>Insert atom</h5>
+              <h6>Direction</h6>
+              <div id="direction">
+                <input type="radio" id="dir1" name="direction" value="up"> Up
+                <input type="radio" id="dir2" name="direction" value="down"> Down
+                <input type="radio" id="dir3" name="direction" value="right"> Right
+                <input type="radio" id="dir4" name="direction" value="left"> Left
+              </div>
+              <button type="button" onClick="newAtom('oxygen')">Oxygen</button>
+              <button type="button" onClick="newAtom('carbon')">Carbon</button>
+              <button type="button" onClick="newAtom('hidrogen')">Hidrogen</button>
+            </div>
+          </div>
+
           <!-- <table>
             <tr>
                 <td><img id="img-selector" class="action" src="imgs/selector.png" alt="" onclick="toolsEventHandler('0');"/></td>
