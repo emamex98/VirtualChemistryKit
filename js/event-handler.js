@@ -83,7 +83,7 @@ function toolsEvent(evt)
       scene.add(light);
       scene.add(directLight);
       objId = 0;
-      document.getElementById("controlitos-2").innerHTML = "";
+      document.getElementById("controlitos-2").innerHTML = " ";
 
       // H2O molecule
         molecule = new Molecule();
@@ -148,7 +148,7 @@ function toolsEvent(evt)
       scene.add(light);
       scene.add(directLight);
       objId = 0;
-      document.getElementById("controlitos-2").innerHTML = "";
+      document.getElementById("controlitos-2").innerHTML = " ";
 
       // Urea molecule
       molecule = new Molecule();
@@ -184,7 +184,7 @@ function toolsEvent(evt)
         scene.add(light);
         scene.add(directLight);
         objId = 0;
-        document.getElementById("controlitos-2").innerHTML = "";
+        document.getElementById("controlitos-2").innerHTML = " ";
         basicStructure = false;
 
         // H2O molecule
@@ -212,7 +212,7 @@ function toolsEvent(evt)
         scene.add(light);
         scene.add(directLight);
         objId = 0;
-        document.getElementById("controlitos-2").innerHTML = "";
+        document.getElementById("controlitos-2").innerHTML = " ";
         basicStructure = false;
 
         // Alcohol molecule (CH3CH2OH)
@@ -251,7 +251,7 @@ function toolsEvent(evt)
         scene.add(light);
         scene.add(directLight);
         objId = 0;
-        document.getElementById("controlitos-2").innerHTML = "";
+        document.getElementById("controlitos-2").innerHTML = " ";
         basicStructure = false;
 
         // Urea molecule
@@ -284,7 +284,7 @@ function toolsEvent(evt)
     }
 
   var animate = document.getElementById("animated").checked;
-  
+
   if (animate) {
     animationObjects.push(mesh);
   }
