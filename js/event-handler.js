@@ -1,6 +1,7 @@
 var renderer;
 var start = false;
 var evtGlobal;
+var basicStructure;
 
 function modeChange(ev){
   if(document.getElementById('mode').checked){
@@ -70,8 +71,6 @@ function resetAnimation(event) {
   toolsEvent(evtGlobal); 
 
 }
-
-
 
 function toolsEvent(evt) 
 {
@@ -231,14 +230,15 @@ function toolsEvent(evt)
         scene.add(directLight);
         objId = 0;
         document.getElementById("controlitos-2").innerHTML = "";
+        basicStructure = false;
 
         // H2O molecule
          molecule = new Molecule();
 
         // Create atoms
         var oxigen = new Atom("oxigen", 1, [1, 0, 0])
-        var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
-        var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+        var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1])
+        var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1])
 
         // Add atoms to molecule
         molecule.addAtom(oxigen, null, null);
@@ -258,6 +258,7 @@ function toolsEvent(evt)
         scene.add(directLight);
         objId = 0;
         document.getElementById("controlitos-2").innerHTML = "";
+        basicStructure = false;
 
         // Alcohol molecule (CH3CH2OH)
         molecule = new Molecule();
@@ -296,6 +297,7 @@ function toolsEvent(evt)
         scene.add(directLight);
         objId = 0;
         document.getElementById("controlitos-2").innerHTML = "";
+        basicStructure = false;
 
         // Urea molecule
         molecule = new Molecule();
@@ -346,6 +348,8 @@ function doMouseDown(x, y) {
     if (intersects.length > 0) {
         if (isPredefinedMolecule(intersects[0].object.parent.name)){
             document.getElementById("controlitos-2").innerHTML = getContent(intersects[0].object.parent.name);
+        }else if (basicStructure){
+            document.getElementById("controlitos-2").innerHTML = getBasicContent(intersects[0].object.parent.name)
         }
         document.getElementById("shape-name").innerHTML = intersects[0].object.name;
         console.log(intersects[0].object.name + " " + mouse.x + " " + mouse.y + " " +intersects[0].object.position.x);
@@ -363,45 +367,41 @@ function isPredefinedMolecule(name) {
 function getContent(name) {
     switch (name) {
         case('H2O'):
-            return "<H4>Molecule: "+name+"</H4>\n" +
-                "            <p>\n" +
-                "              La molécula H2O es un compuesto químico inorgánico formado por dos átomos\n" +
-                "              de hidrógeno (H) y uno de oxígeno (O).<br>\n" +
-                "              Esta molécula es escencial para los seres vivos, al servir para el metabolísmo\n" +
-                "              de biomoléculas. <br>\n" +
-                "              Es descrita comúnmente como solvente universal, dado que disuelve muchos\n" +
-                "              compuestos sólidos, acuosos y gaseosos conocidos.\n" +
-                "              \n" +
+            return "<H4>Molecule: "+name+"</H4>\n" + "<p>\n" +
+                "              The H2O molecule is an inorganic chemical compound made up of two hydrogen (H) and one oxygen (O) atoms.\n" +
+                "              <br> This molecule is essential for living beings, serving for the metabolism of biomolecules.\n" +
+                "              <br> It is commonly described as a universal solvent, since it dissolves many known solid, aqueous and gaseous compounds.\n" +
                 "            </p>";
         case('alcohol'):
             return "<H4>Molecule: "+name+"</H4>\n" + "<p>\n" +
-                "              Compuesto orgánico <br>" +
-                "              El compuesto químico etanol, conocido como alcohol etílico, es un alcohol\n" +
-                "              que en condiciones normales de presión y temperatura se presenta como un\n" +
-                "              líquido incoloro e inflamable con una temperatura de ebullición de 78.4 °C.\n" +
-                "              <br>\n" +
-                "              Es una sustancia psicoactiva y es el principal tipo de alcohol presente en\n" +
-                "              las bebidas alcohólicas, como el vino (alrededor de un 13 %), la cerveza\n" +
-                "              (5 %), los licores (hasta un 50 %) o los aguardientes (hasta un 70 %).\n" +
-                "              <br>\n" +
-                "              El etanol se utiliza ampliamente en muchos sectores industriales y en el\n" +
-                "              sector farmacéutico, como excipiente de algunos medicamentos y cosméticos.\n" +
+                "              Organic compound <br>\n" +
+                "              The chemical compound ethanol, known as ethyl alcohol, is an alcohol that, under normal pressure and temperature conditions, presents itself as a colorless and flammable liquid with a boiling temperature of 78.4 ° C.\n" +
+                "              <br> It is a psychoactive substance and is the main type of alcohol present in alcoholic beverages, such as wine (around 13%), beer (5%), liqueurs (up to 50%) or spirits (up to 70 %).\n" +
+                "              Ethanol is widely used in many industrial sectors and in the pharmaceutical sector, as an excipient for some medicines and cosmetics.\n" +
+                "\n" +
                 "            </p>";
         case('urea'):
             return "<H4>Molecule: "+name+"</H4>\n" + "<p>\n" +
-                "              Compuesto orgánico. <br>\n" +
-                "              La urea es un compuesto químico cristalino e incoloro;\n" +
-                "              de fórmula CO(NH2)2. Se encuentra en mayor proporción en la\n" +
-                "              orina, en el sudor y en la materia fecal. Es el principal\n" +
-                "              producto terminal del metabolismo de las proteínas en el humano\n" +
-                "              y en los demás mamíferos.\n" +
-                "              <br>\n" +
-                "              Se obtuvo originalmente mediante la síntesis de Wöhler, que fue\n" +
-                "              diseñada en 1828 por el químico alemán Friedrich Wöhler, y fue la\n" +
-                "              segunda sustancia orgánica obtenida artificialmente, luego del\n" +
-                "              oxalato de amonio.\n" +
+                "              Organic compound. <br>\n" +
+                "              Urea is a colorless, crystalline chemical compound; with formula CO (NH2) 2. It is found in a greater proportion in urine, sweat and faeces. It is the main terminal product of protein metabolism in humans and other mammals.\n" +
+                "              <br> It was originally obtained through the Wöhler synthesis, which was designed in 1828 by the German chemist Friedrich Wöhler, and was the second artificially obtained organic substance, after ammonium oxalate.\n" +
                 "            </p>";
     }
+}
+
+function getBasicContent(name) {
+    var tittle = "<h4>Molecule: "+name+"</h4>";
+    var contenido;
+    switch (name) {
+        case('O2'):
+           contenido = "<p>\n" +
+               "              Singlet oxygen, systematically named dioxygen(singlet) and dioxidene, is a gaseous inorganic chemical.\n" +
+               "              <br>\n" +
+               "              In photosynthesis, singlet oxygen can be produced from the light-harvesting chlorophyll molecules. One of the roles of carotenoids in photosynthetic systems is to prevent damage caused by produced singlet oxygen by either removing excess light energy from chlorophyll molecules or quenching the singlet oxygen molecules directly.\n" +
+               "            </p>";
+           break;
+    }
+    return tittle + contenido;
 }
 
 function doMouseMove(x, y, evt, prevX, prevY) {
@@ -493,7 +493,8 @@ function changeValue(ev) {
 }
 
 function build(ev){
-
+  basicStructure = true;
+  document.getElementById("controlitos-2").innerHTML = "";
   var hydrogenInput = document.getElementById("hydrogen-input").value;
   var carbonInput = document.getElementById("carbon-input").value;
   var oxygenInput = document.getElementById("oxygen-input").value;
@@ -520,7 +521,7 @@ function build(ev){
     molecule.addAtom(oxigen2, "oxigen1", "up");
 
     scene.add(molecule);
-    molecule.name = "O2"+objId;
+    molecule.name = "O2";
     sceneReady = true;
 
   } 
@@ -547,7 +548,7 @@ function build(ev){
     molecule.addAtom(oxigen2, "carbon1", "up");
 
     scene.add(molecule);
-    molecule.name = "CO"+objId;
+    molecule.name = "CO";
     sceneReady = true;
 
   }
@@ -576,7 +577,7 @@ function build(ev){
     molecule.addAtom(oxigen2, "carbon1", "right");
 
     scene.add(molecule);
-    molecule.name = "CO2"+objId;
+    molecule.name = "CO2";
     sceneReady = true;
 
   }
@@ -603,7 +604,7 @@ function build(ev){
     molecule.addAtom(hidrogen2, "hidrogen1", "right");
 
     scene.add(molecule);
-    molecule.name = "H2"+objId;
+    molecule.name = "H2";
     sceneReady = true;
 
   }
@@ -623,8 +624,8 @@ function build(ev){
 
     // Create atoms
     var oxigen = new Atom("oxigen", 1, [1, 0, 0])
-    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
-    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+    var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("hhidrogen2", 0.7, [1, 1, 1])
 
     // Add atoms to molecule
     molecule.addAtom(oxigen, null, null);
@@ -632,7 +633,7 @@ function build(ev){
     molecule.addAtom(hidrogen2, "oxigen", "right");
 
     scene.add(molecule);
-    molecule.name = "H2O"+objId;
+    molecule.name = "H2O";
     sceneReady = true;
 
   }
@@ -653,8 +654,8 @@ function build(ev){
     // Create atoms
     var oxigen1 = new Atom("oxigen1", 1, [1, 0, 0])
     var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
-    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
-    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+    var hidrogen1 = new Atom("hidrgogen1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("hidrgogen2", 0.7, [1, 1, 1])
     var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
     var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
 
@@ -667,7 +668,7 @@ function build(ev){
     molecule.addAtom(hidrogen2, "carbon2", "up");
 
     scene.add(molecule);
-    molecule.name = "H2C2O2"+objId;
+    molecule.name = "H2C2O2";
     sceneReady = true;
 
   }
@@ -688,8 +689,8 @@ function build(ev){
     // Create atoms
     var oxigen1 = new Atom("oxigen1", 1, [1, 0, 0])
     var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
-    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
-    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+    var hidrogen1 = new Atom("hidrgogen1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("hidrgogen2", 0.7, [1, 1, 1])
 
     // Add atoms to molecule
     molecule.addAtom(oxigen1, null, null);
@@ -698,7 +699,7 @@ function build(ev){
     molecule.addAtom(hidrogen2, "oxigen2", "down");
 
     scene.add(molecule);
-    molecule.name = "H2O2"+objId;
+    molecule.name = "H2O2";
     sceneReady = true;
 
   }
@@ -718,22 +719,21 @@ function build(ev){
 
     // Create atoms
     var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
-    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
-    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
-    var hidrogen3 = new Atom("h3", 0.7, [1, 1, 1])
-    var hidrogen4 = new Atom("h4", 0.7, [1, 1, 1])
+    var hidrogen1 = new Atom("hidrgogen1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("hidrgogen2", 0.7, [1, 1, 1])
+    var hidrogen3 = new Atom("hidrgogen3", 0.7, [1, 1, 1])
+    var hidrogen4 = new Atom("hidrgogen4", 0.7, [1, 1, 1])
 
     // Add atoms to molecule
     molecule.addAtom(carbon1, null, null);
-    molecule.addAtom(oxigen1, "carbon1", "left");
-    molecule.addAtom(oxigen2, "carbon1", "right");
+    molecule.addAtom(hidrogen1, "carbon1", "left");
+    molecule.addAtom(hidrogen2, "carbon1", "right");
+    molecule.addAtom(hidrogen3, "carbon1", "up");
+    molecule.addAtom(hidrogen4, "carbon1", "down");
 
     scene.add(molecule);
-    molecule.name = "CH4"+objId;
+    molecule.name = "CH4";
     sceneReady = true;
-
-
-    
   }
 
   //C2H6
@@ -769,7 +769,7 @@ function build(ev){
     molecule.addAtom(hidrogen6, "carbon2", "right");
 
     scene.add(molecule);
-    molecule.name = "C2H6"+objId;
+    molecule.name = "C2H6";
     sceneReady = true;
 
   }
@@ -847,6 +847,7 @@ function changeCamera(value) {
 function newAtom(identifier)
 {
     var atomToInsert;
+    basicStructure = false;
     switch (identifier) {
         case('oxygen'):
             atomToInsert = new OxygenAtom();
