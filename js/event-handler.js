@@ -46,7 +46,9 @@ function startAnimation(event){
 
 function stopAnimation(event){
   start = false;
-  cancelAnimationFrame( id );
+  if(id != null){
+    cancelAnimationFrame( id );
+  }
 }
 
 function resetAnimation(event) {
@@ -389,10 +391,10 @@ function updateLabel(event) {
 }
 
 function rotateObject(event) {
-  if (selectedObj != null) {
     var deg = document.getElementById("degrees").value
-    selectedObj.rotation.set(0., 0., Math.PI*deg);
-  }
+    molecule.rotation.set(0., Math.PI*deg, 0.);
+    console.log("rotate");
+  
 }
 
 
