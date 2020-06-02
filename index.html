@@ -1,0 +1,204 @@
+<html>
+
+  <head>
+      <title>Molecule Kit</title>
+      <meta charset="utf-8">
+
+      <link rel="stylesheet" type="text/css" href="css/my-style.css">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      
+      <script src="js/lib/three.min.js" type="text/javascript"></script>
+      <script src="js/lib/orbit-controls.js" type="text/javascript"></script>
+      <script src="js/event-handler.js" type="text/javascript"></script>
+      <script src="js/main.js" type="text/javascript"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+      <script src="js/lib/TrackballControls.js" type="text/javascript"></script>
+      
+
+      <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    </head>
+
+  <body onload = main();>
+
+    <h1>My Online Molecule Kit</h1>
+    <br>
+
+    <div class="container">
+      <div class="row">
+
+        <div class="col menu-area">
+
+          <h4 style="text-align: center;">Menu</h4>
+
+          <h5>Mode</h5>
+          <div class="row">
+            <div class="col">
+              <input id="mode" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="secondary" data-on="Animate" data-off="Edit"  onchange="modeChange(this);">
+            </div>
+          </div>
+
+          <div class="row" id="animation-controls">
+            <div class="col">
+              <h5>Animation Controls</h5>
+              <button type="button" id="start">Start</button>
+              <button type="button" id="stop">Stop</button>
+              <button type="button" id="reset">Reset</button>
+            </div>
+          </div>
+
+          <div class="row" id="edit-controls">
+            <div class="col">
+              <h5>Canvas Controls</h5>
+              <img id="img-eraser" class="action" src="imgs/selector.png" alt="" onclick=""/>
+              <img id="img-eraser" class="action" src="imgs/eraser.png" alt="" onclick="toolsEvent('2');"/>
+              <br><label for="rotation">Rotation</label>
+              <input type="range" min="0" max="2" value="0" step="0.1" class="slider" id="degrees">
+              <label for="degrees" id="ldeg">0.0</label><br>
+              <button type="button" id="rbutton">Rotate</button><br>
+            </div>
+          </div>
+          
+          <div class="row" id="edit-controls-2">
+            <div class="col">
+              <h5>Prebuilt Structures</h5>
+              <img id="img-h20" class="action" src="imgs/h2o.png" alt="" onclick="toolsEvent('11');"/>
+              <img id="img-alcohol" class="action" src="imgs/alcohol.png" alt="" onclick="toolsEvent('12');"/>
+              <img id="img-urea" class="action" src="imgs/urea.jpg" alt="" onclick="toolsEvent('13');"/>
+            </div>
+          </div>
+
+          <div class="row" id="edit-controls-3">
+            <div class="col">
+              <h5>Custom Structures</h5>
+
+              <div class="row">
+                <div class="col">
+                  <input checked id="constrols-mode" type="checkbox" data-toggle="toggle" data-onstyle="secondary" data-offstyle="secondary" data-on="Basic" data-off="Advanced"  onchange="controlsMode(this);">
+                </div>
+              </div>
+
+              <br>
+
+              <div id="advanced">
+
+                <h6>Direction</h6>
+                <div id="direction">
+                  <input type="radio" id="dir1" name="direction" value="up"> Up
+                  <input type="radio" id="dir2" name="direction" value="down"> Down
+                  <input type="radio" id="dir3" name="direction" value="right"> Right
+                  <input type="radio" id="dir4" name="direction" value="left"> Left
+                </div>
+
+                <br>
+                <h6>Atoms</h6>
+                <button type="button" onClick="newAtom('oxygen')">Oxygen</button>
+                <button type="button" onClick="newAtom('carbon')">Carbon</button><br>
+                <button type="button" onClick="newAtom('hidrogen')">Hidrogen</button>
+                <button type="button" onclick="newAtom('nitrogen')">Nitrogen</button>
+
+              </div>
+
+              <div id="basic">
+                <h6>Atoms</h6>
+                <div class="col-10">
+                  <div class="input-group mb-3"> 
+                    <span style="margin-top: 6px; margin-right: 15px;">
+                      Hydrogen
+                    </span>
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary" type="button" id="hydrogen-minus">–</button>
+                    </div>
+                    <input type="text" class="form-control" value=0 id="hydrogen-input" style="text-align: center;">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" id="hydrogen-plus">+</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-10">
+                  <div class="input-group mb-3"> 
+                    <span style="margin-top: 6px; margin-right: 15px;">
+                      Carbon ⠀ 
+                    </span>
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary" type="button" id="carbon-minus">–</button>
+                    </div>
+                    <input type="text" class="form-control" value=0 id="carbon-input" style="text-align: center;">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" id="carbon-plus">+</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-10">
+                  <div class="input-group mb-3"> 
+                    <span style="margin-top: 6px; margin-right: 15px;">
+                      Oxygen ⠀
+                    </span>
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary" type="button" id="oxygen-minus">–</button>
+                    </div>
+                    <input type="text" class="form-control" value=0 id="oxygen-input" style="text-align: center;">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" id="oxygen-plus">+</button>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="button" id="build-btn">Validate & Build</button>
+
+              </div>
+
+              <br>
+
+            </div>
+          </div>
+        
+        </div>
+        
+        <div class="col" style="text-align: center;"> 
+          <canvas id="canvas" width="500" height="500"></canvas>
+        </div>
+
+        <div class="col menu-area" style="text-align: left;">
+          
+          <h3>Selected Atom: <span id="shape-name"></span> </h3>
+          <div style="..." id="controlitos-2">
+
+          </div>
+
+          <div style="float: center;" id="controlitos">
+            <div id="transform" style="display: block">
+              <input type="checkbox" id="animated" name="animated" value="Animated" checked>
+              <label for="animated"> Animate figure</label><br>
+              <label for="translation">Translation</label><br>
+              <input type="text" id="tx" name="text-translate-x"><br>
+              <input type="text" id="ty" name="text-translate-y"><br>
+              <input type="text" id="tz" name="text-translate-z"><br>
+              <button type="button" id="tbutton">Translate</button><br>
+              <label for="scalation">Scalation</label><br>
+              <input type="text" id="sx" name="text-scale-x"><br>
+              <input type="text" id="sy" name="text-scale-y"><br>
+              <input type="text" id="sz" name="text-scale-z"><br>
+              <button type="button" id="sbutton">Scale</button><br>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <span style="size: 2;">
+        Algunos iconos fueron diseñados por <a href="https://www.flaticon.es/autores/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.es/" title="Flaticon"> www.flaticon.es</a>
+        </span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>  
+
+  </body>
+
+
+
+</html>
