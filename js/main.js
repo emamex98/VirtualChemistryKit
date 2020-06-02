@@ -80,6 +80,7 @@ function main()
 
     document.getElementById("animation-controls").style.display = "none";
     document.getElementById("controlitos").style.display = "none";
+    document.getElementById("advanced").style.display = "none";
 
     //------------------------- Mouse Control -----------------------
     controls = new THREE.TrackballControls(camera,canvas);
