@@ -69,65 +69,84 @@
           <div class="row" id="edit-controls-3">
             <div class="col">
               <h5>Custom Structures</h5>
-              <h6>Direction</h6>
-              <div id="direction">
-                <input type="radio" id="dir1" name="direction" value="up"> Up
-                <input type="radio" id="dir2" name="direction" value="down"> Down
-                <input type="radio" id="dir3" name="direction" value="right"> Right
-                <input type="radio" id="dir4" name="direction" value="left"> Left
-              </div>
-              <button type="button" onClick="newAtom('oxygen')">Oxygen</button>
-              <button type="button" onClick="newAtom('carbon')">Carbon</button>
-              <button type="button" onClick="newAtom('hidrogen')">Hidrogen</button>
-              <button type="button" onclick="newAtom('nitrogen')">Nitrogen</button>
 
-              <br><br>
-              <div class="col-10">
-                <div class="input-group mb-3"> 
-                  <span style="margin-top: 6px; margin-right: 15px;">
-                    Hydrogen
-                  </span>
-                  <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary" type="button" id="hydrogen-minus">–</button>
-                  </div>
-                  <input type="text" class="form-control" value=0 id="hydrogen-input" style="text-align: center;">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="hydrogen-plus">+</button>
-                  </div>
+              <div class="row">
+                <div class="col">
+                  <input checked id="constrols-mode" type="checkbox" data-toggle="toggle" data-onstyle="secondary" data-offstyle="secondary" data-on="Basic" data-off="Advanced"  onchange="controlsMode(this);">
                 </div>
               </div>
 
-              <div class="col-10">
-                <div class="input-group mb-3"> 
-                  <span style="margin-top: 6px; margin-right: 15px;">
-                    Carbon ⠀ 
-                  </span>
-                  <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary" type="button" id="carbon-minus">–</button>
-                  </div>
-                  <input type="text" class="form-control" value=0 id="carbon-input" style="text-align: center;">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="carbon-plus">+</button>
-                  </div>
+              <br>
+
+              <div id="advanced">
+
+                <h6>Direction</h6>
+                <div id="direction">
+                  <input type="radio" id="dir1" name="direction" value="up"> Up
+                  <input type="radio" id="dir2" name="direction" value="down"> Down
+                  <input type="radio" id="dir3" name="direction" value="right"> Right
+                  <input type="radio" id="dir4" name="direction" value="left"> Left
                 </div>
+
+                <br>
+                <h6>Atoms</h6>
+                <button type="button" onClick="newAtom('oxygen')">Oxygen</button>
+                <button type="button" onClick="newAtom('carbon')">Carbon</button><br>
+                <button type="button" onClick="newAtom('hidrogen')">Hidrogen</button>
+                <button type="button" onclick="newAtom('nitrogen')">Nitrogen</button>
+
               </div>
 
-              <div class="col-10">
-                <div class="input-group mb-3"> 
-                  <span style="margin-top: 6px; margin-right: 15px;">
-                    Oxygen ⠀
-                  </span>
-                  <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary" type="button" id="oxygen-minus">–</button>
-                  </div>
-                  <input type="text" class="form-control" value=0 id="oxygen-input" style="text-align: center;">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="oxygen-plus">+</button>
+              <div id="basic">
+                <h6>Atoms</h6>
+                <div class="col-10">
+                  <div class="input-group mb-3"> 
+                    <span style="margin-top: 6px; margin-right: 15px;">
+                      Hydrogen
+                    </span>
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary" type="button" id="hydrogen-minus">–</button>
+                    </div>
+                    <input type="text" class="form-control" value=0 id="hydrogen-input" style="text-align: center;">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" id="hydrogen-plus">+</button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <button type="button" id="build-btn">Validate & Build</button>
+                <div class="col-10">
+                  <div class="input-group mb-3"> 
+                    <span style="margin-top: 6px; margin-right: 15px;">
+                      Carbon ⠀ 
+                    </span>
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary" type="button" id="carbon-minus">–</button>
+                    </div>
+                    <input type="text" class="form-control" value=0 id="carbon-input" style="text-align: center;">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" id="carbon-plus">+</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-10">
+                  <div class="input-group mb-3"> 
+                    <span style="margin-top: 6px; margin-right: 15px;">
+                      Oxygen ⠀
+                    </span>
+                    <div class="input-group-prepend">
+                      <button class="btn btn-outline-secondary" type="button" id="oxygen-minus">–</button>
+                    </div>
+                    <input type="text" class="form-control" value=0 id="oxygen-input" style="text-align: center;">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" id="oxygen-plus">+</button>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="button" id="build-btn">Validate & Build</button>
+
+              </div>
 
             </div>
           </div>

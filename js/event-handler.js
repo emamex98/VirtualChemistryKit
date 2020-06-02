@@ -1,3 +1,7 @@
+var renderer;
+var start = false;
+var evtGlobal;
+
 function modeChange(ev){
   if(document.getElementById('mode').checked){
     //ANIMATION
@@ -27,11 +31,15 @@ function modeChange(ev){
   }
 }
 
-
-var renderer;
-var start = false;
-var evtGlobal;
-//var animationObjects;
+function controlsMode(evt) {
+  if(document.getElementById('constrols-mode').checked){
+    document.getElementById("basic").style.display = "block";
+    document.getElementById("advanced").style.display = "none";
+  } else {
+    document.getElementById("basic").style.display = "none";
+    document.getElementById("advanced").style.display = "block";
+  }
+}
 
 function startAnimation(event){
   if(!start){
@@ -41,11 +49,11 @@ function startAnimation(event){
 
   }
 
-  function animate(){
-    id = requestAnimationFrame( animate );
-    molecule.rotation.y += .010;
-   // render();
-  }
+function animate(){
+  id = requestAnimationFrame( animate );
+  molecule.rotation.y += .010;
+  // render();
+}
 
 
 function stopAnimation(event){
@@ -434,20 +442,110 @@ function build(ev){
   // O2
   if (hydrogenInput == 0 && carbonInput == 0 && oxygenInput == 2) {
 
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var oxigen1 = new Atom("oxigen1", 1, [1, 0, 0])
+    var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
+
+    // Add atoms to molecule
+    molecule.addAtom(oxigen1, null, null);
+    molecule.addAtom(oxigen2, "oxigen1", "up");
+
+    scene.add(molecule);
+    molecule.name = "O2"+objId;
+    sceneReady = true;
+
   } 
 
   //CO
   else if (hydrogenInput == 0 && carbonInput == 1 && oxygenInput == 1) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+    var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
+
+    // Add atoms to molecule
+    molecule.addAtom(carbon1, null, null);
+    molecule.addAtom(oxigen2, "carbon1", "up");
+
+    scene.add(molecule);
+    molecule.name = "CO"+objId;
+    sceneReady = true;
 
   }
   
   //CO2
   else if (hydrogenInput == 0 && carbonInput == 1 && oxygenInput == 2) {
 
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+    var oxigen1 = new Atom("oxigen1", 1, [1, 0, 0])
+    var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
+
+    // Add atoms to molecule
+    molecule.addAtom(carbon1, null, null);
+    molecule.addAtom(oxigen1, "carbon1", "left");
+    molecule.addAtom(oxigen2, "carbon1", "right");
+
+    scene.add(molecule);
+    molecule.name = "CO2"+objId;
+    sceneReady = true;
+
   }
 
   //H2
   else if (hydrogenInput == 2 && carbonInput == 0 && oxygenInput == 0) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1])
+
+    // Add atoms to molecule
+    molecule.addAtom(hidrogen1, null, null);
+    molecule.addAtom(hidrogen2, "hidrogen1", "right");
+
+    scene.add(molecule);
+    molecule.name = "H2"+objId;
+    sceneReady = true;
 
   }
 
@@ -475,7 +573,42 @@ function build(ev){
     molecule.addAtom(hidrogen2, "oxigen", "right");
 
     scene.add(molecule);
-    molecule.name = "h2o"+objId;
+    molecule.name = "H2O"+objId;
+    sceneReady = true;
+
+  }
+
+  //H2C2O2
+  else if (hydrogenInput == 2 && carbonInput == 2 && oxygenInput == 2) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var oxigen1 = new Atom("oxigen1", 1, [1, 0, 0])
+    var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
+    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+    var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+    var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
+
+    // Add atoms to molecule
+    molecule.addAtom(carbon1, null, null)
+    molecule.addAtom(carbon2, "carbon1", "right")
+    molecule.addAtom(oxigen1, "carbon1", "up");
+    molecule.addAtom(oxigen2, "carbon2", "down");
+    molecule.addAtom(hidrogen1, "carbon1", "down");
+    molecule.addAtom(hidrogen2, "carbon2", "up");
+
+    scene.add(molecule);
+    molecule.name = "H2C2O2"+objId;
     sceneReady = true;
 
   }
@@ -483,11 +616,65 @@ function build(ev){
   //H2O2
   else if (hydrogenInput == 2 && carbonInput == 0 && oxygenInput == 2) {
 
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var oxigen1 = new Atom("oxigen1", 1, [1, 0, 0])
+    var oxigen2 = new Atom("oxigen2", 1, [1, 0, 0])
+    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+
+    // Add atoms to molecule
+    molecule.addAtom(oxigen1, null, null);
+    molecule.addAtom(oxigen2, "oxigen1", "left");
+    molecule.addAtom(hidrogen1, "oxigen1", "up");
+    molecule.addAtom(hidrogen2, "oxigen2", "down");
+
+    scene.add(molecule);
+    molecule.name = "H2O2"+objId;
+    sceneReady = true;
+
   }
 
   //CH4
   else if (hydrogenInput == 4 && carbonInput == 1 && oxygenInput == 0) {
 
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // New molecule
+    molecule = new Molecule();
+
+    // Create atoms
+    var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+    var hidrogen3 = new Atom("h3", 0.7, [1, 1, 1])
+    var hidrogen4 = new Atom("h4", 0.7, [1, 1, 1])
+
+    // Add atoms to molecule
+    molecule.addAtom(carbon1, null, null);
+    molecule.addAtom(oxigen1, "carbon1", "left");
+    molecule.addAtom(oxigen2, "carbon1", "right");
+
+    scene.add(molecule);
+    molecule.name = "CH4"+objId;
+    sceneReady = true;
+
+
+    
   }
 
   //C2H6
@@ -523,7 +710,7 @@ function build(ev){
     molecule.addAtom(hidrogen6, "carbon2", "right");
 
     scene.add(molecule);
-    molecule.name = "ethane"+objId;
+    molecule.name = "C2H6"+objId;
     sceneReady = true;
 
   }
