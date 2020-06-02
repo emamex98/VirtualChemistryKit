@@ -361,6 +361,59 @@ function getBasicContent(name) {
                "              In photosynthesis, singlet oxygen can be produced from the light-harvesting chlorophyll molecules. One of the roles of carotenoids in photosynthetic systems is to prevent damage caused by produced singlet oxygen by either removing excess light energy from chlorophyll molecules or quenching the singlet oxygen molecules directly.\n" +
                "            </p>";
            break;
+        case('CO'):
+            contenido = "<p>\n" +
+                "              Carbon monoxide (CO) is a colorless, odorless, and tasteless flammable gas that is slightly less dense than air. It is toxic to animals that use hemoglobin as an oxygen carrier (both invertebrate and vertebrate) when encountered in concentrations above about 35 ppm, although it is also produced in normal animal metabolism in low quantities, and is thought to have some normal biological functions. In the atmosphere, it is spatially variable and short-lived, having a role in the formation of ground-level ozone.\n" +
+                "              <br>\n" +
+                "              Carbon monoxide is produced from the partial oxidation of carbon-containing compounds; it forms when there is not enough oxygen to produce carbon dioxide (CO2), such as when operating a stove or an internal combustion engine in an enclosed space. In the presence of oxygen, including atmospheric concentrations, carbon monoxide burns with a blue flame, producing carbon dioxide.\n" +
+                "            </p>";
+            break;
+        case('CO2'):
+            contenido = "<p>\n" +
+                "                Carbon dioxide is a colorless gas with a density about 60% higher than that of dry air. Carbon dioxide consists of a carbon atom covalently double bonded to two oxygen atoms. It occurs naturally in Earth's atmosphere as a trace gas. The current concentration is about 0.04% (412 ppm) by volume, having risen from pre-industrial levels of 280 ppm.\n" +
+                "                <br>\n" +
+                "                Natural sources include volcanoes, hot springs and geysers, and it is freed from carbonate rocks by dissolution in water and acids.\n" +
+                "              </p>";
+            break;
+        case('H2'):
+            contenido = "<p>\n" +
+                "                Deuterium (or hydrogen-2, also known as heavy hydrogen) is one of two stable isotopes of hydrogen (the other being protium, or hydrogen-1). The nucleus of a deuterium atom, called a deuteron, contains one proton and one neutron, whereas the far more common protium has no neutrons in the nucleus.\n" +
+                "                <br>\n" +
+                "                Deuterium has a natural abundance in Earth's oceans of about one atom in 6420 of hydrogen. Thus deuterium accounts for approximately 0.02% (0.03% by mass) of all the naturally occurring hydrogen in the oceans, while protium accounts for more than 99.98%.\n" +
+                "              </p>";
+            break;
+        case('H2O'):
+            contenido = "<p>\n" +
+                "              The H2O molecule is an inorganic chemical compound made up of two hydrogen (H) and one oxygen (O) atoms.\n" +
+                "              <br> This molecule is essential for living beings, serving for the metabolism of biomolecules.\n" +
+                "              <br> It is commonly described as a universal solvent, since it dissolves many known solid, aqueous and gaseous compounds.\n" +
+                "            </p>";
+            break;
+        case('H2C2O2'):
+            contenido = "<p>\n" +
+                "                Acetolactone or α-acetolactone is an organic compound. \n" +
+                "                <br> \n" +
+                "                It is the smallest member of the lactone family but can also be described as the epoxide of ketene. The compound was described in 1997 as a transient species in mass spectrometry experiments.\n" +
+                "              </p>";
+            break;
+        case('H2O2'):
+            contenido = "<p>\n" +
+                "                Hydrogen peroxide is a chemical inorganic compound. In its pure form, it is a very pale blue liquid, slightly more viscous than water. Hydrogen peroxide is the simplest peroxide (a compound with an oxygen–oxygen single bond). It is used as an oxidizer, bleaching agent, and antiseptic. Concentrated hydrogen peroxide, or \"high-test peroxide\", is a reactive oxygen species and has been used as a propellant in rocketry.\n" +
+                "              </p>";
+            break;
+        case('CH4'):
+            contenido = "<p>\n" +
+                "                Methane is a chemical compound with the chemical formula CH4 (one atom of carbon and four atoms of hydrogen). It is a group-14 hydride and the simplest alkane, and is the main constituent of natural gas. The relative abundance of methane on Earth makes it an attractive fuel, although capturing and storing it poses challenges due to its gaseous state under normal conditions for temperature and pressure.\n" +
+                "              </p>";
+            break;
+        case('C2H2'):
+            contenido = "<p>\n" +
+                "                Acetylene is the chemical compound with the formula C2H2. It is a hydrocarbon and the simplest alkyne.\n" +
+                "                <br> This colorless gas is widely used as a fuel and a chemical building block. <br>\n" +
+                "                It is unstable in its pure form and thus is usually handled as a solution. <br> \n" +
+                "                Pure acetylene is odorless, but commercial grades usually have a marked odor due to impurities.\n" +
+                "              </p>";
+            break;
     }
     return tittle + contenido;
 }
@@ -747,7 +800,6 @@ function build(ev){
 
 
 }
-
 
 function initEventHandler(evt)
 {
