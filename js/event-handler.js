@@ -74,7 +74,8 @@ function toolsEvent(evt)
       scene.add(mesh);
       sceneReady = true;
       
-    } else if (evt == 2) {
+    }
+    else if (evt == 2) {
       if (selectedObj != null) {
       }
 
@@ -83,6 +84,8 @@ function toolsEvent(evt)
       }
       molecule = new Molecule();
       objId = 0;
+      document.getElementById("controlitos-2").innerHTML = "";
+      document.getElementById("shape-name").innerText = "";
     }
     
     else if (evt == 3) {
@@ -206,6 +209,7 @@ function toolsEvent(evt)
         scene.add(light);
         scene.add(directLight);
         objId = 0;
+        document.getElementById("controlitos-2").innerHTML = "";
 
         // H2O molecule
          molecule = new Molecule();
@@ -221,7 +225,7 @@ function toolsEvent(evt)
         molecule.addAtom(hidrogen2, "oxigen", "right");
 
         scene.add(molecule);
-        molecule.name = "h2o"+objId;
+        molecule.name = "H2O";
         sceneReady = true;
     }
 
@@ -232,6 +236,7 @@ function toolsEvent(evt)
         scene.add(light);
         scene.add(directLight);
         objId = 0;
+        document.getElementById("controlitos-2").innerHTML = "";
 
         // Alcohol molecule (CH3CH2OH)
         molecule = new Molecule();
@@ -258,7 +263,7 @@ function toolsEvent(evt)
         molecule.addAtom(hidrogen6, "oxigen1", "right");
 
         scene.add(molecule);
-        molecule.name = "alcohol"+objId;
+        molecule.name = "alcohol";
         sceneReady = true;
     }
     else if(evt == 13){
@@ -269,6 +274,7 @@ function toolsEvent(evt)
         scene.add(light);
         scene.add(directLight);
         objId = 0;
+        document.getElementById("controlitos-2").innerHTML = "";
 
         // Urea molecule
         molecule = new Molecule();
@@ -293,7 +299,7 @@ function toolsEvent(evt)
         molecule.addAtom(hidrogen4, "nitrogen2", "down");
 
         scene.add(molecule);
-        molecule.name = "urea"+objId;
+        molecule.name = "urea";
         sceneReady = true;
 
         //molecule.rotation.y += 5000;
@@ -317,13 +323,64 @@ function doMouseDown(x, y) {
     var intersects = raycaster.intersectObjects(scene.children, true);
 
     if (intersects.length > 0) {
+        if (isPredefinedMolecule(intersects[0].object.parent.name)){
+            document.getElementById("controlitos-2").innerHTML = getContent(intersects[0].object.parent.name);
+        }
         document.getElementById("shape-name").innerHTML = intersects[0].object.name;
         console.log(intersects[0].object.name + " " + mouse.x + " " + mouse.y + " " +intersects[0].object.position.x);
         selectedObj = intersects[0].object;
-    }else{
-        console.log(a + " " + b)
     }
+}
 
+function isPredefinedMolecule(name) {
+    if(name == 'H2O' || name == 'alcohol' || name == 'urea'){
+        return true;
+    }
+    return false;
+}
+
+function getContent(name) {
+    switch (name) {
+        case('H2O'):
+            return "<H4>Molecule: "+name+"</H4>\n" +
+                "            <p>\n" +
+                "              La molécula H2O es un compuesto químico inorgánico formado por dos átomos\n" +
+                "              de hidrógeno (H) y uno de oxígeno (O).<br>\n" +
+                "              Esta molécula es escencial para los seres vivos, al servir para el metabolísmo\n" +
+                "              de biomoléculas. <br>\n" +
+                "              Es descrita comúnmente como solvente universal, dado que disuelve muchos\n" +
+                "              compuestos sólidos, acuosos y gaseosos conocidos.\n" +
+                "              \n" +
+                "            </p>";
+        case('alcohol'):
+            return "<H4>Molecule: "+name+"</H4>\n" + "<p>\n" +
+                "              Compuesto orgánico <br>" +
+                "              El compuesto químico etanol, conocido como alcohol etílico, es un alcohol\n" +
+                "              que en condiciones normales de presión y temperatura se presenta como un\n" +
+                "              líquido incoloro e inflamable con una temperatura de ebullición de 78.4 °C.\n" +
+                "              <br>\n" +
+                "              Es una sustancia psicoactiva y es el principal tipo de alcohol presente en\n" +
+                "              las bebidas alcohólicas, como el vino (alrededor de un 13 %), la cerveza\n" +
+                "              (5 %), los licores (hasta un 50 %) o los aguardientes (hasta un 70 %).\n" +
+                "              <br>\n" +
+                "              El etanol se utiliza ampliamente en muchos sectores industriales y en el\n" +
+                "              sector farmacéutico, como excipiente de algunos medicamentos y cosméticos.\n" +
+                "            </p>";
+        case('urea'):
+            return "<H4>Molecule: "+name+"</H4>\n" + "<p>\n" +
+                "              Compuesto orgánico. <br>\n" +
+                "              La urea es un compuesto químico cristalino e incoloro;\n" +
+                "              de fórmula CO(NH2)2. Se encuentra en mayor proporción en la\n" +
+                "              orina, en el sudor y en la materia fecal. Es el principal\n" +
+                "              producto terminal del metabolismo de las proteínas en el humano\n" +
+                "              y en los demás mamíferos.\n" +
+                "              <br>\n" +
+                "              Se obtuvo originalmente mediante la síntesis de Wöhler, que fue\n" +
+                "              diseñada en 1828 por el químico alemán Friedrich Wöhler, y fue la\n" +
+                "              segunda sustancia orgánica obtenida artificialmente, luego del\n" +
+                "              oxalato de amonio.\n" +
+                "            </p>";
+    }
 }
 
 function doMouseMove(x, y, evt, prevX, prevY) {

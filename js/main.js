@@ -79,7 +79,7 @@ function main()
     requestAnimationFrame(renderLoop);              // RENDER LOOP
 
     document.getElementById("animation-controls").style.display = "none";
-    
+    document.getElementById("controlitos").style.display = "none";
 }
        
 function renderLoop() {
@@ -91,8 +91,6 @@ function renderLoop() {
                  animationObjects[i].rotation.x = animationObjects[i].rotation.x + 0.01;
                  animationObjects[i].rotation.y = animationObjects[i].rotation.y + 0.01;
              }
-            //mesh.rotation.x = mesh.rotation.x + 0.01;
-            //mesh.rotation.y = mesh.rotation.y + 0.01;
          }
     }
     requestAnimationFrame(renderLoop);
