@@ -5,8 +5,10 @@ function modeChange(ev){
     document.getElementById("transform").style.display = "none";
 
     document.getElementById("animation-controls").style.display = "block";
+
     document.getElementById("edit-controls").style.display = "none";
     document.getElementById("edit-controls-2").style.display = "none";
+    document.getElementById("edit-controls-3").style.display = "none";
 
     animationMode = true;
   } else {
@@ -15,8 +17,10 @@ function modeChange(ev){
     document.getElementById("transform").style.display = "inline";
 
     document.getElementById("animation-controls").style.display = "none";
+
     document.getElementById("edit-controls").style.display = "block";
     document.getElementById("edit-controls-2").style.display = "block";
+    document.getElementById("edit-controls-3").style.display = "block";
 
     animationMode = false;
     stopAnimation(null)
@@ -388,6 +392,148 @@ function rotateObject(event) {
   }
 }
 
+function changeValue(ev) {
+
+  var hydrogenInput = document.getElementById("hydrogen-input");
+  var carbonInput = document.getElementById("carbon-input");
+  var oxygenInput = document.getElementById("oxygen-input");
+
+  if(ev.target.id == "hydrogen-minus" && hydrogenInput.value > 0){
+    hydrogenInput.value--;
+  } if(ev.target.id == "hydrogen-plus" && hydrogenInput.value < 6){
+    hydrogenInput.value++;
+  }
+
+  if(ev.target.id == "carbon-minus" && carbonInput.value > 0){
+    carbonInput.value--;
+  } if(ev.target.id == "carbon-plus" && carbonInput.value < 2){
+    carbonInput.value++;
+  }
+
+  if(ev.target.id == "oxygen-minus" && oxygenInput.value > 0){
+    oxygenInput.value--;
+  } if(ev.target.id == "oxygen-plus" && oxygenInput.value < 2){
+    oxygenInput.value++;
+  }
+
+}
+
+function build(ev){
+
+  var hydrogenInput = document.getElementById("hydrogen-input").value;
+  var carbonInput = document.getElementById("carbon-input").value;
+  var oxygenInput = document.getElementById("oxygen-input").value;
+
+  // O2
+  if (hydrogenInput == 0 && carbonInput == 0 && oxygenInput == 2) {
+
+  } 
+
+  //CO
+  else if (hydrogenInput == 0 && carbonInput == 1 && oxygenInput == 1) {
+
+  }
+  
+  //CO2
+  else if (hydrogenInput == 0 && carbonInput == 1 && oxygenInput == 2) {
+
+  }
+
+  //H2
+  else if (hydrogenInput == 2 && carbonInput == 0 && oxygenInput == 0) {
+
+  }
+
+  //H2O
+  else if (hydrogenInput == 2 && carbonInput == 0 && oxygenInput == 1) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // H2O molecule
+     molecule = new Molecule();
+
+    // Create atoms
+    var oxigen = new Atom("oxigen", 1, [1, 0, 0])
+    var hidrogen1 = new Atom("h1", 0.7, [1, 1, 1])
+    var hidrogen2 = new Atom("h2", 0.7, [1, 1, 1])
+
+    // Add atoms to molecule
+    molecule.addAtom(oxigen, null, null);
+    molecule.addAtom(hidrogen1, "oxigen", "up");
+    molecule.addAtom(hidrogen2, "oxigen", "right");
+
+    scene.add(molecule);
+    molecule.name = "h2o"+objId;
+    sceneReady = true;
+
+  }
+
+  //H2O2
+  else if (hydrogenInput == 2 && carbonInput == 0 && oxygenInput == 2) {
+
+  }
+
+  //CH4
+  else if (hydrogenInput == 4 && carbonInput == 1 && oxygenInput == 0) {
+
+  }
+
+  //C2H6
+  else if (hydrogenInput == 6 && carbonInput == 2 && oxygenInput == 0) {
+
+    // Restart scene
+    scene = new THREE.Scene();
+    scene.add(camera);
+    scene.add(light);
+    scene.add(directLight);
+    objId = 0;
+
+    // Ethane
+    molecule = new Molecule();
+
+    var carbon1 = new Atom("carbon1", 1, [0.25, 0.25, 0.25]);
+    var carbon2 = new Atom("carbon2", 1, [0.25, 0.25, 0.25]);
+    var hidrogen1 = new Atom("hidrogen1", 0.7, [1, 1, 1]);
+    var hidrogen2 = new Atom("hidrogen2", 0.7, [1, 1, 1]);
+    var hidrogen3 = new Atom("hidrogen3", 0.7, [1, 1, 1]);
+    var hidrogen4 = new Atom("hidrogen4", 0.7, [1, 1, 1]);
+    var hidrogen5 = new Atom("hidrogen5", 0.7, [1, 1, 1]);
+    var hidrogen6 = new Atom("hidrogen6", 0.7, [1, 1, 1]);
+
+    // Add atoms to molecule
+    molecule.addAtom(carbon2, null, null);
+    molecule.addAtom(hidrogen4, "carbon2", "up");
+    molecule.addAtom(hidrogen5, "carbon2", "down");
+    molecule.addAtom(carbon1, "carbon2", "left");
+    molecule.addAtom(hidrogen1, "carbon1", "left");
+    molecule.addAtom(hidrogen2, "carbon1", "up");
+    molecule.addAtom(hidrogen3, "carbon1", "down");
+    molecule.addAtom(hidrogen6, "carbon2", "right");
+
+    scene.add(molecule);
+    molecule.name = "ethane"+objId;
+    sceneReady = true;
+
+  }
+
+  else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Please enter a stable combination!',
+      footer: '<a href="http://www2.yvcc.edu/Biology/109Modules/Modules/ChemistryModule/Chemistry.html#:~:text=The%20stability%20of%20atoms%20depends,other%20atoms%20to%20achieve%20stability">Learn more about molecule structure stability.</a>'
+    });
+  }
+
+
+
+}
+
 
 function initEventHandler(evt)
 {
@@ -400,6 +546,16 @@ function initEventHandler(evt)
   document.getElementById("reset").addEventListener("click", resetAnimation);
   document.getElementById("degrees").addEventListener("input", updateLabel, false);
   document.getElementById("animated").addEventListener("input", animateObject, false);
+  document.getElementById("animated").addEventListener("input", animateObject, false);
+
+  document.getElementById("hydrogen-minus").addEventListener("click", changeValue);
+  document.getElementById("hydrogen-plus").addEventListener("click", changeValue);
+  document.getElementById("carbon-minus").addEventListener("click", changeValue);
+  document.getElementById("carbon-plus").addEventListener("click", changeValue);
+  document.getElementById("oxygen-minus").addEventListener("click", changeValue);
+  document.getElementById("oxygen-plus").addEventListener("click", changeValue);
+  document.getElementById("build-btn").addEventListener("click", build);
+
   //document.addEventListener('click', onMouseMove, false);
 }
 
