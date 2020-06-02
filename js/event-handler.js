@@ -76,6 +76,12 @@ function toolsEvent(evt)
 {
   evtGlobal = evt;
 
+  if(evt == 2) {
+    while(scene.children.length > 0){ 
+      scene.remove(scene.children[0]); 
+    }
+  }
+
   if (evt == 11) {
       // Restart scene
       scene = new THREE.Scene();
